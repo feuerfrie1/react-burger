@@ -1,0 +1,34 @@
+.ingredients__cards_card {
+    display: grid;
+    align-items: center;
+    justify-content: center;
+    width: 272px;
+    height: 208px;
+    position: relative;
+    cursor: pointer;
+}
+
+.ingredients__price {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.ingredients__cards_list {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-top: 24px;
+}
+
+.ingredients__cards {
+    width: 600px;
+    height: 756px;
+    overflow-y: scroll;
+}
+
+.ingredients__card_title {
+    display: flex;
+    justify-content: center;
+}
