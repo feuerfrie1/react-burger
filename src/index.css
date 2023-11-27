@@ -1,14 +1,14 @@
 @font-face {
-    font-family: 'JetBrains Mono';
-    src: url("./fonts/JetBrainsMono-Regular.ttf") format("ttf");
-  }
+  font-family: "JetBrains Mono";
+  src: url("./fonts/JetBrainsMono-Regular.ttf") format("ttf");
+}
 
-  #modal {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 40px;
-    width: 100%;
-    height: 100%;
-    position: fixed;
-  }
+#modal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 40px;
+  width: 100%;
+  height: 100%;
+  position: fixed;
+}
