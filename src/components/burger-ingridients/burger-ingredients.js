@@ -40,19 +40,19 @@ function BurgerIngredients({ ingredients }) {
         <h2 className="text text_type_main-medium mt-5">Булки</h2>
         <div className={styles.ingredients__cards_list}>
           {bun.map((item) => {
-            return <BurgerIngredientsCard ingredients={item} key={item._id} />;
+            return <BurgerIngredientsCard ingredient={item} key={item._id} />;
           })}
         </div>
         <h2 className="text text_type_main-medium mt-5">Соусы</h2>
         <div className={styles.ingredients__cards_list}>
           {sauce.map((item) => {
-            return <BurgerIngredientsCard ingredients={item} key={item._id} />;
+            return <BurgerIngredientsCard ingredient={item} key={item._id} />;
           })}
         </div>
         <h2 className="text text_type_main-medium mt-5">Начинки</h2>
         <div className={styles.ingredients__cards_list}>
           {main.map((item) => {
-            return <BurgerIngredientsCard ingredients={item} key={item._id} />;
+            return <BurgerIngredientsCard ingredient={item} key={item._id} />;
           })}
         </div>
       </div>
@@ -62,10 +62,6 @@ function BurgerIngredients({ ingredients }) {
 
 BurgerIngredients.propTypes = {
   ingredients: PropTypes.arrayOf(ingredientsPropTypes).isRequired,
-  cart: PropTypes.shape({
-    bun: ingredientsPropTypes.isRequired,
-    filling: PropTypes.arrayOf(ingredientsPropTypes).isRequired,
-  }),
 };
 
 export default BurgerIngredients;

@@ -9,7 +9,7 @@ import Modal from "../modal/modal";
 import IngredientDetails from "../modal/ingredient-details/ingredient-details";
 import { ingredientsPropTypes } from "../../utils/ingredients-prop-types";
 
-export default function BurgerIngredientsCard({ ingredients }) {
+export default function BurgerIngredientsCard({ ingredient }) {
   const [isModalActive, setModalActive] = useState(false);
   function toggleModal() {
     setModalActive(!isModalActive);
@@ -20,20 +20,20 @@ export default function BurgerIngredientsCard({ ingredients }) {
       <div onClick={toggleModal} className={styles.ingredients__cards_card}>
         <img
           className={styles.image}
-          src={ingredients.image}
-          alt={ingredients.name}
-          type={ingredients.bun}
+          src={ingredient.image}
+          alt={ingredient.name}
+          type={ingredient.bun}
         />
         <div className={styles.ingredients__price}>
           <p className="text text_type_digits-default m-1">
-            {ingredients.price}
+            {ingredient.price}
           </p>
           <CurrencyIcon type="primary" />
         </div>
         <p
           className={`${styles.ingredients__card_title} text text_type_main-small`}
         >
-          {ingredients.name}
+          {ingredient.name}
         </p>
         <Counter count={1} size="default" extraClass="m-1" />
       </div>
@@ -43,7 +43,7 @@ export default function BurgerIngredientsCard({ ingredients }) {
           title="Детали ингредиента"
           onClose={toggleModal}
         >
-          <IngredientDetails ingredients={ingredients} />
+          <IngredientDetails ingredient={ingredient} />
         </Modal>
       )}
     </section>
@@ -51,5 +51,5 @@ export default function BurgerIngredientsCard({ ingredients }) {
 }
 
 BurgerIngredientsCard.propTypes = {
-  ingredients: ingredientsPropTypes.isRequired,
+  ingredient: ingredientsPropTypes.isRequired,
 };

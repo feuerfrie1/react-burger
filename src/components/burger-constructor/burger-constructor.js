@@ -94,10 +94,8 @@ function BurgerConstructor({ ingredients }) {
 }
 
 BurgerConstructor.propTypes = {
-  cart: PropTypes.shape({
-    bun: ingredientsPropTypes.isRequired,
-    elements: PropTypes.arrayOf(ingredientsPropTypes).isRequired,
-  }),
+  ingredients: PropTypes.arrayOf(ingredientsPropTypes).isRequired
 };
+
 
 export default BurgerConstructor;
