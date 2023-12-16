@@ -1,0 +1,17 @@
+.clean_bottom {
+  display: flex;
+  width: 534px;
+  align-items: center;
+  justify-content: center;
+  background: var(--interface-modal-bg, #1c1c21);
+  border-radius: var(--bottom-constructor-item-border-radius);
+  min-height: 80px;
+}
+
+.ingredient {
+  border: 1px solid var(--interface-modal-bg, #1c1c21);
+}
+
+.hovered {
+  border: 1px solid var(--interface-accent, #4c4cff);
+}

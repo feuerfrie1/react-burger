@@ -1,13 +1,18 @@
 import styles from "../order-details/order-details.module.css";
 import doneIcon from "../../../images/done.png";
+import { useSelector } from "react-redux";
+import { selectOrderNumber } from "../../../services/store/order/reducers";
 
 export default function OrderDetails() {
+
+  const number = useSelector(selectOrderNumber);
+
   return (
     <section className={styles.orderdetails}>
       <h2
         className={`${styles.orderdetails__title} text text_type_digits-large`}
       >
-        034536
+        {number}
       </h2>
       <p
         className={`${styles.orderdetails__text} text text_type_main-medium mt-8`}

@@ -1,67 +1,146 @@
-import React from "react";
 import styles from "../burger-ingridients/burger-ingredients.module.css";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import BurgerIngredientsCard from "./burger-ingredients-card";
-import PropTypes from "prop-types";
-import { ingredientsPropTypes } from "../../utils/ingredients-prop-types";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { useSelector } from "react-redux";
+import { selectIngredients } from "../../services/store/burger-ingredients/reducers";
+import {
+  selectBun,
+  selectFilling,
+} from "../../services/store/buger-constructor/reducers";
 
-function BurgerIngredients({ ingredients }) {
-  const [current, setCurrent] = React.useState("one");
-  const bun = React.useMemo(
-    () => ingredients.filter((item) => item.type === "bun"),
-    [ingredients]
+function BurgerIngredients() {
+  const list = useSelector(selectIngredients);
+
+  const filling = useSelector(selectFilling);
+  const bun = useSelector(selectBun);
+
+  const buns = useMemo(
+    () => list.filter((item) => item.type === "bun"),
+    [list]
   );
 
-  const sauce = React.useMemo(
-    () => ingredients.filter((item) => item.type === "sauce"),
-    [ingredients]
+  const sauces = useMemo(
+    () => list.filter((item) => item.type === "sauce"),
+    [list]
   );
 
-  const main = React.useMemo(
-    () => ingredients.filter((item) => item.type === "main"),
-    [ingredients]
+  const main = useMemo(
+    () => list.filter((item) => item.type === "main"),
+    [list]
   );
+
+  const tabsRef = useRef();
+  const [current, setCurrent] = useState("buns");
+  const [tabsRect, setTabsRect] = useState({});
+
+  const ingredientsRef = {
+    buns: useRef(),
+    sauces: useRef(),
+    main: useRef(),
+  };
+
+  function scrollRef() {
+    const { y: bunY } = ingredientsRef.buns.current.getBoundingClientRect();
+    const { y: saucesY } =
+      ingredientsRef.sauces.current.getBoundingClientRect();
+    const { y: mainY } = ingredientsRef.main.current.getBoundingClientRect();
+    Math.abs(bunY) - tabsRect.y <= 100 && setCurrent("buns");
+    Math.abs(saucesY) - tabsRect.y <= 100 && setCurrent("sauces");
+    Math.abs(mainY) - tabsRect.y <= 100 && setCurrent("main");
+  }
+
+  useEffect(() => {
+    setTabsRect(tabsRef.current.getBoundingClientRect());
+  }, []);
+
+  function toggleTab(e) {
+    setCurrent(e);
+    ingredientsRef[e].current.scrollIntoView({ behavior: "smooth" });
+  }
+
+  const ingredientsCounter = {};
+  list.forEach((item) => {
+    ingredientsCounter[item._id] = filling.reduce(
+      (acc, ingredient) => (ingredient._id === item._id ? ++acc : acc),
+      null
+    );
+  });
+  bun !== null && (ingredientsCounter[bun._id] = 2);
 
   return (
-    <div>
+    <section>
       <h2 className="text text_type_main-large mt-5 mb-3">Соберите бургер</h2>
-      <div className={styles.ingredients__section}>
-        <Tab value="one" active={current === "one"} onClick={setCurrent}>
+      <nav className={styles.ingredients__section} ref={tabsRef}>
+        <Tab value="buns" active={current === "buns"} onClick={toggleTab}>
           Булки
         </Tab>
-        <Tab value="two" active={current === "two"} onClick={setCurrent}>
+        <Tab value="sauces" active={current === "sauces"} onClick={toggleTab}>
           Соусы
         </Tab>
-        <Tab value="three" active={current === "three"} onClick={setCurrent}>
+        <Tab value="main" active={current === "main"} onClick={toggleTab}>
           Начинки
         </Tab>
-      </div>
-      <div className={`${styles.ingredients__cards} custom-scroll`}>
-        <h2 className="text text_type_main-medium mt-5">Булки</h2>
+      </nav>
+      <div
+        className={`${styles.ingredients__cards} custom-scroll`}
+        onScroll={scrollRef}
+      >
+        <h2
+          ref={ingredientsRef.buns}
+          className="text text_type_main-medium mt-5"
+        >
+          Булки
+        </h2>
         <div className={styles.ingredients__cards_list}>
-          {bun.map((item) => {
-            return <BurgerIngredientsCard ingredient={item} key={item._id} />;
+          {buns.map((item) => {
+            return (
+              <BurgerIngredientsCard
+                ingredient={item}
+                key={item._id}
+                count={ingredientsCounter[item._id]}
+              />
+            );
           })}
         </div>
-        <h2 className="text text_type_main-medium mt-5">Соусы</h2>
+        <h2
+          ref={ingredientsRef.sauces}
+          className="text text_type_main-medium mt-5"
+        >
+          Соусы
+        </h2>
         <div className={styles.ingredients__cards_list}>
-          {sauce.map((item) => {
-            return <BurgerIngredientsCard ingredient={item} key={item._id} />;
+          {sauces.map((item) => {
+            return (
+              <BurgerIngredientsCard
+                ingredient={item}
+                key={item._id}
+                count={ingredientsCounter[item._id]}
+              />
+            );
           })}
         </div>
-        <h2 className="text text_type_main-medium mt-5">Начинки</h2>
+        <h2
+          ref={ingredientsRef.main}
+          id="section-3"
+          className="text text_type_main-medium mt-5"
+        >
+          Начинки
+        </h2>
         <div className={styles.ingredients__cards_list}>
           {main.map((item) => {
-            return <BurgerIngredientsCard ingredient={item} key={item._id} />;
+            return (
+              <BurgerIngredientsCard
+                ingredient={item}
+                key={item._id}
+                count={ingredientsCounter[item._id]}
+              />
+            );
           })}
         </div>
       </div>
-    </div>
+    </section>
   );
 }
-
-BurgerIngredients.propTypes = {
-  ingredients: PropTypes.arrayOf(ingredientsPropTypes).isRequired,
-};
 
 export default BurgerIngredients;

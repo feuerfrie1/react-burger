@@ -1,0 +1,22 @@
+.clean {
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  border-radius: var(--common-border-radius-s);
+  background: var(--interface-modal-bg, #1c1c21);
+  width: 534px;
+  min-height: 80px;
+  color: #f2f2f3;
+  flex-grow: 1;
+  box-sizing: border-box;
+}
+
+.fillings {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-height: 50vh;
+  overflow: auto;
+  margin-bottom: 10px;
+  margin-top: 10px;
+}
