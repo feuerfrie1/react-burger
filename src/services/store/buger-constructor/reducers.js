@@ -1,20 +1,20 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { v4 as uuid } from "uuid";
+import {createSlice} from "@reduxjs/toolkit";
+import {v4 as uuid} from "uuid";
 
 const initialState = {
   bun: null,
-  filling: [],
-};
+  filling: []
+}
 
 const burgerConstructorSlice = createSlice({
-  name: "burgerConstructor",
+  name: 'burgerConstructor',
   initialState: initialState,
   reducers: {
     setBun: (state, action) => {
       state.bun = action.payload;
     },
     addFilling: (state, action) => {
-      const fillingItem = { ...action.payload };
+      const fillingItem = {...action.payload};
       fillingItem.constructorId = uuid();
       state.filling.push(fillingItem);
     },
@@ -28,22 +28,16 @@ const burgerConstructorSlice = createSlice({
     sortFilling: (state, action) => {
       state.filling.splice(action.payload.from, 1);
       state.filling.splice(action.payload.to, 0, action.payload.item);
-    },
+    }
   },
   selectors: {
-    selectBun: (state) => state.bun,
-    selectFilling: (state) => state.filling,
-  },
-});
+    selectBun: state => state.bun,
+    selectFilling: state => state.filling
+  }
+})
 
-const { reducer, selectors, actions } = burgerConstructorSlice;
+const {reducer, selectors, actions} = burgerConstructorSlice;
 
-export const {
-  setBun,
-  addFilling,
-  removeFilling,
-  clearConstructorState,
-  sortFilling,
-} = actions;
-export const { selectBun, selectFilling } = selectors;
+export const {setBun, addFilling, removeFilling, clearConstructorState, sortFilling} = actions;
+export const {selectBun, selectFilling} = selectors;
 export default reducer;

@@ -9,6 +9,7 @@ import { FillingsCard } from "../fillings-card/fillings-card";
 
 export function Fillings() {
   const filling = useSelector(selectFilling);
+  const dispatch = useDispatch();
 
   const [, fillingDrop] = useDrop({
     accept: "filling",
@@ -20,9 +21,6 @@ export function Fillings() {
   function fillingDropHandler(ingredient) {
     dispatch(addFilling(ingredient));
   }
-
-  const dispatch = useDispatch();
-
   return (
     <>
       {filling.length === 0 ? (
@@ -30,10 +28,7 @@ export function Fillings() {
           <p className="text text_type_main-default">Выберите начинку</p>
         </div>
       ) : (
-        <div
-          className={`${styles.fillings} custom-scroll`}
-          ref={fillingDropHandler}
-        >
+        <div className={`${styles.fillings} custom-scroll`} ref={fillingDrop}>
           {filling.map((item, index) => {
             return (
               <FillingsCard

@@ -1,5 +1,4 @@
 import styles from "../burger-ingridients/burger-ingredients.module.css";
-import React from "react";
 import { useState } from "react";
 import {
   CurrencyIcon,
@@ -59,5 +58,4 @@ export default function BurgerIngredientsCard({ ingredient, count }) {
 
 BurgerIngredientsCard.propTypes = {
   ingredient: ingredientsPropTypes.isRequired,
-  count: ingredientsPropTypes,
 };
