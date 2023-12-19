@@ -1,9 +1,0 @@
-.clean_top {
-  display: flex;
-  width: 534px;
-  align-items: center;
-  justify-content: center;
-  background: var(--interface-modal-bg, #1c1c21);
-  border-radius: var(--top-constructor-item-border-radius);
-  min-height: 80px;
-}

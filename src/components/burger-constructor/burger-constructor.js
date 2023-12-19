@@ -9,8 +9,7 @@ import OrderDetails from "../modal/order-details/order-details";
 import { useDrop } from "react-dnd";
 import { useDispatch, useSelector } from "react-redux";
 import { setBun } from "../../services/store/buger-constructor/reducers";
-import { BunTop } from "./bun/bun-top";
-import { BunBottom } from "./bun/bun-bottom";
+import { Bun } from "./bun/bun"
 import { Fillings } from "./fillings/fillings";
 import { FillingsCard } from "./fillings-card/fillings-card";
 import {
@@ -76,11 +75,11 @@ function BurgerConstructor() {
   return (
     <section>
       <div className={`${styles.burger__constructor_elements} mt-25 mb-10`}>
-        <BunTop ref={topBunDropTarget} />
+        <Bun viewType="top" ref={topBunDropTarget} viewTypeText="top" />
         <Fillings>
           <FillingsCard />
         </Fillings>
-        <BunBottom ref={bottomBunDropTarget} />
+        <Bun viewType="bottom" ref={bottomBunDropTarget} viewTypeText="bottom" />
       </div>
       <div className={styles.burger__constructor_order}>
         <div className={`${styles.burger__constructor_total} mr-10`}>

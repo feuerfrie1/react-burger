@@ -9,3 +9,8 @@
   box-sizing: border-box;
   align-items: center;
 }
+
+.fillings__dragicon {
+  position: absolute;
+  left: 0;
+}

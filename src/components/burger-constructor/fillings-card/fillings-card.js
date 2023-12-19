@@ -11,6 +11,7 @@ import {
   sortFilling,
 } from "../../../services/store/buger-constructor/reducers";
 import { ingredientsPropTypes } from "../../../utils/ingredients-prop-types";
+import PropTypes from "prop-types";
 
 export function FillingsCard({ ingredient, index }) {
   const dispatch = useDispatch();
@@ -73,7 +74,9 @@ export function FillingsCard({ ingredient, index }) {
       data-index={index}
       data-handler-id={handlerId}
     >
-      <DragIcon />
+      <div className={styles.fillings__dragicon}>
+      <DragIcon  />
+      </div>
       <ConstructorElement
         text={ingredient.name}
         price={ingredient.price}
@@ -85,5 +88,6 @@ export function FillingsCard({ ingredient, index }) {
 }
 
 FillingsCard.propTypes = {
-  ingredient: ingredientsPropTypes
-}
+  ingredient: ingredientsPropTypes,
+  index: PropTypes.number
+};
