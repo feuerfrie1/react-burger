@@ -6,7 +6,10 @@
 .burger__constructor_elements {
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
   gap: 10px;
+  width: 600px;
 }
 
 .burger__constructor_components {
@@ -25,4 +28,5 @@
 .burger__constructor_order {
   display: flex;
   justify-content: flex-end;
+  width: 568px;
 }

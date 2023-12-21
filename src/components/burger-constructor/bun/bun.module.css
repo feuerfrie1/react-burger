@@ -1,0 +1,16 @@
+.clean {
+  display: flex;
+  width: 534px;
+  align-items: center;
+  justify-content: center;
+  background: var(--interface-modal-bg, #1c1c21);
+  min-height: 80px;
+}
+
+.clean_top {
+  border-radius: var(--top-constructor-item-border-radius);
+}
+
+.clean_bottom {
+  border-radius: var(--bottom-constructor-item-border-radius);
+}

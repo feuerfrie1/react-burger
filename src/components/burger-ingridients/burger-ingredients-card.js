@@ -1,5 +1,4 @@
 import styles from "../burger-ingridients/burger-ingredients.module.css";
-import React from "react";
 import { useState } from "react";
 import {
   CurrencyIcon,
@@ -8,12 +7,18 @@ import {
 import Modal from "../modal/modal";
 import IngredientDetails from "../modal/ingredient-details/ingredient-details";
 import { ingredientsPropTypes } from "../../utils/ingredients-prop-types";
+import { useDrag } from "react-dnd";
 
-export default function BurgerIngredientsCard({ ingredient }) {
+export default function BurgerIngredientsCard({ ingredient, count }) {
   const [isModalActive, setModalActive] = useState(false);
   function toggleModal() {
     setModalActive(!isModalActive);
   }
+
+  const [, dragRef] = useDrag({
+    type: ingredient.constructorExtraType,
+    item: ingredient,
+  });
 
   return (
     <section>
@@ -23,6 +28,7 @@ export default function BurgerIngredientsCard({ ingredient }) {
           src={ingredient.image}
           alt={ingredient.name}
           type={ingredient.bun}
+          ref={dragRef}
         />
         <div className={styles.ingredients__price}>
           <p className="text text_type_digits-default m-1">
@@ -35,7 +41,7 @@ export default function BurgerIngredientsCard({ ingredient }) {
         >
           {ingredient.name}
         </p>
-        <Counter count={1} size="default" extraClass="m-1" />
+        {count && <Counter count={count} size="default" />}
       </div>
       {isModalActive && (
         <Modal

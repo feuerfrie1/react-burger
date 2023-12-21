@@ -1,0 +1,16 @@
+.fillings__card {
+  display: flex;
+  border-radius: var(--common-border-radius-s);
+  background: var(--background-element);
+  width: 536px;
+  min-height: 80px;
+  color: #f2f2f3;
+  flex-grow: 1;
+  box-sizing: border-box;
+  align-items: center;
+}
+
+.fillings__dragicon {
+  position: absolute;
+  left: 0;
+}

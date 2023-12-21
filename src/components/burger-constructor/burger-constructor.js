@@ -1,80 +1,93 @@
-import React from "react";
-import { useState } from "react";
+import { useMemo, useCallback } from "react";
 import styles from "../burger-constructor/burger-constructor.module.css";
 import {
-  ConstructorElement,
   Button,
   CurrencyIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import BurgerConstructorCard from "./burger-constructor-card";
 import Modal from "../modal/modal";
 import OrderDetails from "../modal/order-details/order-details";
-import PropTypes from "prop-types";
-import { ingredientsPropTypes } from "../../utils/ingredients-prop-types";
+import { useDrop } from "react-dnd";
+import { useDispatch, useSelector } from "react-redux";
+import { setBun } from "../../services/store/buger-constructor/reducers";
+import { Bun } from "./bun/bun"
+import { Fillings } from "./fillings/fillings";
+import { FillingsCard } from "./fillings-card/fillings-card";
+import {
+  selectBun,
+  selectFilling,
+  clearConstructorState,
+} from "../../services/store/buger-constructor/reducers";
+import { makeOrder } from "../../services/store/order/actions";
+import {
+  clearOrder,
+  selectOrderNumber,
+} from "../../services/store/order/reducers";
 
-function BurgerConstructor({ ingredients }) {
-  const [isModalActive, setModalActive] = useState(false);
+function BurgerConstructor() {
+  const dispatch = useDispatch();
 
-  function toggleModal() {
-    setModalActive(!isModalActive);
+  const bun = useSelector(selectBun);
+  const filling = useSelector(selectFilling);
+
+  function bunDrop(ingredient) {
+    dispatch(setBun(ingredient));
   }
 
-  const bun = React.useMemo(
-    () => ingredients.filter((item) => item._id === "643d69a5c3f7b9001cfa093c"),
-    [ingredients]
-  );
+  const [, topBunDropTarget] = useDrop({
+    accept: "bun",
+    drop(ingredient) {
+      bunDrop(ingredient);
+    },
+  });
 
-  const elements = React.useMemo(
-    () => ingredients.filter((item) => item.type !== "bun"),
-    [ingredients]
-  );
+  const [, bottomBunDropTarget] = useDrop({
+    accept: "bun",
+    drop(ingredient) {
+      bunDrop(ingredient);
+    },
+  });
+
+  const totalPrice = useMemo(() => {
+    let result = 0;
+    bun && (result += bun.price * 2);
+    filling.length !== 0 &&
+      (result += filling.reduce(
+        (acc, ingredient) => acc + ingredient.price,
+        0
+      ));
+    return result;
+  }, [bun, filling]);
+
+  const orderButtonHandler = useCallback(() => {
+    if (bun === null || filling.length === 0) return;
+    const ingredients = [bun, ...filling, bun];
+    const ids = ingredients.map((item) => item._id);
+    dispatch(makeOrder(ids));
+  }, [dispatch, filling]);
+
+  const orderNumber = useSelector(selectOrderNumber);
+
+  const onCloseModal = useCallback(() => {
+    dispatch(clearOrder());
+    dispatch(clearConstructorState());
+  }, [dispatch]);
 
   return (
     <section>
       <div className={`${styles.burger__constructor_elements} mt-25 mb-10`}>
-        <div className={`${styles.burger__constructor_element} ml-6`}>
-          {bun.map((item) => {
-            return (
-              <ConstructorElement
-                type="top"
-                isLocked={true}
-                text={`${item.name} (верх)`}
-                price={item.price}
-                thumbnail={item.image}
-                key={item._id}
-              />
-            );
-          })}
-        </div>
-        <div
-          className={`${styles.burger__constructor_components} custom-scroll`}
-        >
-          {elements.map((item) => {
-            return <BurgerConstructorCard ingredient={item} key={item._id} />;
-          })}
-        </div>
-        <div className={`${styles.burger__constructor_element} ml-6`}>
-          {bun.map((item) => {
-            return (
-              <ConstructorElement
-                type="bottom"
-                isLocked={true}
-                text={`${item.name} (низ)`}
-                price={item.price}
-                thumbnail={item.image}
-                key={item._id}
-              />
-            );
-          })}
-        </div>
+        <Bun viewType="top" ref={topBunDropTarget} viewTypeText="top" />
+        <Fillings>
+          <FillingsCard />
+        </Fillings>
+        <Bun viewType="bottom" ref={bottomBunDropTarget} viewTypeText="bottom" />
       </div>
       <div className={styles.burger__constructor_order}>
         <div className={`${styles.burger__constructor_total} mr-10`}>
-          <p className="text text_type_digits-medium mr-3">610</p>
+          <p className="text text_type_digits-medium mr-3">{totalPrice}</p>
           <CurrencyIcon type="primary" />
         </div>
         <Button
-          onClick={toggleModal}
+          onClick={orderButtonHandler}
           htmlType="button"
           type="primary"
           size="large"
@@ -83,8 +96,8 @@ function BurgerConstructor({ ingredients }) {
         </Button>
       </div>
       <div>
-        {isModalActive && (
-          <Modal onClose={toggleModal}>
+        {orderNumber && (
+          <Modal onClose={onCloseModal}>
             <OrderDetails />
           </Modal>
         )}
@@ -92,10 +105,5 @@ function BurgerConstructor({ ingredients }) {
     </section>
   );
 }
-
-BurgerConstructor.propTypes = {
-  ingredients: PropTypes.arrayOf(ingredientsPropTypes).isRequired
-};
-
 
 export default BurgerConstructor;
