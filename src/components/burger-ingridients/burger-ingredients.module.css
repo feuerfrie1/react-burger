@@ -36,3 +36,8 @@
   display: flex;
   justify-content: center;
 }
+
+.ingredients__cards_link {
+  text-decoration: none;
+  color: var(--text-primary-light-standart-text, #F2F2F3);
+}

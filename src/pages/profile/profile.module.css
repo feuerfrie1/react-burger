@@ -1,0 +1,24 @@
+.wrap {
+  display: flex;
+  width: 1280px;
+  margin: 0 auto;
+  margin-top: 10vh;
+}
+
+.profile__nav {
+  width: 320px;
+}
+
+.profile__description {
+  opacity: 0.4;
+}
+
+.profile__nav_link {
+  text-decoration: none;
+}
+
+.profile__nav_logout {
+  border: none;
+  background: none;
+  cursor: pointer;
+}
