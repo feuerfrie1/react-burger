@@ -4,10 +4,10 @@ import {
   CurrencyIcon,
   Counter,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import Modal from "../modal/modal";
-import IngredientDetails from "../modal/ingredient-details/ingredient-details";
 import { ingredientsPropTypes } from "../../utils/ingredients-prop-types";
 import { useDrag } from "react-dnd";
+import { Link, useLocation } from "react-router-dom";
+import PropTypes from "prop-types";
 
 export default function BurgerIngredientsCard({ ingredient, count }) {
   const [isModalActive, setModalActive] = useState(false);
@@ -20,42 +20,43 @@ export default function BurgerIngredientsCard({ ingredient, count }) {
     item: ingredient,
   });
 
+  const location = useLocation();
+
   return (
     <section>
       <div onClick={toggleModal} className={styles.ingredients__cards_card}>
-        <img
-          className={styles.image}
-          src={ingredient.image}
-          alt={ingredient.name}
-          type={ingredient.bun}
-          ref={dragRef}
-        />
-        <div className={styles.ingredients__price}>
-          <p className="text text_type_digits-default m-1">
-            {ingredient.price}
+        <Link
+          to={`/ingredients/${ingredient._id}`}
+          key={ingredient._id}
+          state={{ background: location }}
+          className={styles.ingredients__cards_link}
+        >
+          <img
+            className={styles.image}
+            src={ingredient.image}
+            alt={ingredient.name}
+            type={ingredient.bun}
+            ref={dragRef}
+          />
+          <div className={styles.ingredients__price}>
+            <p className="text text_type_digits-default m-1">
+              {ingredient.price}
+            </p>
+            <CurrencyIcon type="primary" />
+          </div>
+          <p
+            className={`${styles.ingredients__card_title} text text_type_main-small`}
+          >
+            {ingredient.name}
           </p>
-          <CurrencyIcon type="primary" />
-        </div>
-        <p
-          className={`${styles.ingredients__card_title} text text_type_main-small`}
-        >
-          {ingredient.name}
-        </p>
-        {count && <Counter count={count} size="default" />}
+          {count && <Counter count={count} size="default" />}
+        </Link>
       </div>
-      {isModalActive && (
-        <Modal
-          className="text text_type_main-medium mt-4 mb-8"
-          title="Детали ингредиента"
-          onClose={toggleModal}
-        >
-          <IngredientDetails ingredient={ingredient} />
-        </Modal>
-      )}
     </section>
   );
 }
 
 BurgerIngredientsCard.propTypes = {
   ingredient: ingredientsPropTypes.isRequired,
+  count: PropTypes.number,
 };

@@ -1,0 +1,17 @@
+.wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 90vh;
+    justify-content: center;
+}
+
+.login {
+    display: flex;
+    flex-direction: column;
+}
+
+.link {
+    color: #4C4CFF;
+    text-decoration: none;
+}

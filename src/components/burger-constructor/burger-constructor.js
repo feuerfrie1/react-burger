@@ -1,4 +1,5 @@
 import { useMemo, useCallback } from "react";
+import { useNavigate } from "react-router-dom";
 import styles from "../burger-constructor/burger-constructor.module.css";
 import {
   Button,
@@ -9,7 +10,7 @@ import OrderDetails from "../modal/order-details/order-details";
 import { useDrop } from "react-dnd";
 import { useDispatch, useSelector } from "react-redux";
 import { setBun } from "../../services/store/buger-constructor/reducers";
-import { Bun } from "./bun/bun"
+import { Bun } from "./bun/bun";
 import { Fillings } from "./fillings/fillings";
 import { FillingsCard } from "./fillings-card/fillings-card";
 import {
@@ -22,12 +23,16 @@ import {
   clearOrder,
   selectOrderNumber,
 } from "../../services/store/order/reducers";
+import { selectUser } from "../../services/store/user/reducers";
 
 function BurgerConstructor() {
   const dispatch = useDispatch();
 
   const bun = useSelector(selectBun);
   const filling = useSelector(selectFilling);
+
+  const user = useSelector(selectUser);
+  const navigate = useNavigate();
 
   function bunDrop(ingredient) {
     dispatch(setBun(ingredient));
@@ -59,6 +64,7 @@ function BurgerConstructor() {
   }, [bun, filling]);
 
   const orderButtonHandler = useCallback(() => {
+    if (!user) return navigate("/login");
     if (bun === null || filling.length === 0) return;
     const ingredients = [bun, ...filling, bun];
     const ids = ingredients.map((item) => item._id);
@@ -79,7 +85,11 @@ function BurgerConstructor() {
         <Fillings>
           <FillingsCard />
         </Fillings>
-        <Bun viewType="bottom" ref={bottomBunDropTarget} viewTypeText="bottom" />
+        <Bun
+          viewType="bottom"
+          ref={bottomBunDropTarget}
+          viewTypeText="bottom"
+        />
       </div>
       <div className={styles.burger__constructor_order}>
         <div className={`${styles.burger__constructor_total} mr-10`}>

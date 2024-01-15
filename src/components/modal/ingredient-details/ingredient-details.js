@@ -1,7 +1,14 @@
 import styles from "../ingredient-details/ingredient-details.module.css";
-import { ingredientsPropTypes } from "../../../utils/ingredients-prop-types";
+import { useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { selectIngredients } from "../../../services/store/burger-ingredients/reducers";
 
-export default function IngredientDetails({ ingredient }) {
+export default function IngredientDetails() {
+  const { id } = useParams();
+  const ingredients = useSelector(selectIngredients);
+  const ingredient =
+    ingredients.find((ingredient) => ingredient._id === id) || {};
+
   return (
     <section className={styles.ingredientdetails}>
       <img
@@ -51,7 +58,3 @@ export default function IngredientDetails({ ingredient }) {
     </section>
   );
 }
-
-IngredientDetails.propTypes = {
-  ingredient: ingredientsPropTypes.isRequired,
-};
