@@ -11,8 +11,9 @@ export default function Profile() {
   const dispatch = useDispatch();
 
   const onExit = () => {
+    // @ts-ignore
     dispatch(logout());
-    navigate('/login', {replace: true});
+    navigate("/login", { replace: true });
   };
 
   return (

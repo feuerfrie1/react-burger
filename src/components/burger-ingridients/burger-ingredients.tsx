@@ -1,19 +1,31 @@
 import styles from "../burger-ingridients/burger-ingredients.module.css";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import BurgerIngredientsCard from "./burger-ingredients-card";
-import { useEffect, useMemo, useRef, useState } from "react";
+import {
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  JSX,
+  MutableRefObject,
+} from "react";
 import { useSelector } from "react-redux";
 import { selectIngredients } from "../../services/store/burger-ingredients/reducers";
 import {
   selectBun,
   selectFilling,
 } from "../../services/store/buger-constructor/reducers";
+import { TIngredient, TMonoTypeObject } from "../../utils/types";
 
-function BurgerIngredients() {
-  const list = useSelector(selectIngredients);
+type TBurgerIngredients = {
+  [name: string]: MutableRefObject<HTMLElement | null>;
+};
 
-  const filling = useSelector(selectFilling);
-  const bun = useSelector(selectBun);
+const BurgerIngredients = (): JSX.Element => {
+  const list: Array<TIngredient> = useSelector(selectIngredients);
+
+  const filling: Array<TIngredient> = useSelector(selectFilling);
+  const bun: TIngredient | null = useSelector(selectBun);
 
   const buns = useMemo(
     () => list.filter((item) => item.type === "bun"),
@@ -30,55 +42,60 @@ function BurgerIngredients() {
     [list]
   );
 
-  const tabsRef = useRef();
-  const [current, setCurrent] = useState("buns");
-  const [tabsRect, setTabsRect] = useState({});
+  const tabsRef = useRef<HTMLDivElement | null>(null);
+  const [currentTab, setCurrentTab] = useState<string>("buns");
+  const [tabsRectY, setTabsRectY] = useState<number>(0);
 
-  const ingredientsRef = {
-    buns: useRef(),
-    sauces: useRef(),
-    main: useRef(),
+  const ingredientsRef: TBurgerIngredients = {
+    buns: useRef<HTMLElement | null>(null),
+    sauces: useRef<HTMLElement | null>(null),
+    main: useRef<HTMLElement | null>(null),
   };
 
   function scrollRef() {
-    const { y: bunY } = ingredientsRef.buns.current.getBoundingClientRect();
-    const { y: saucesY } =
-      ingredientsRef.sauces.current.getBoundingClientRect();
-    const { y: mainY } = ingredientsRef.main.current.getBoundingClientRect();
-    Math.abs(bunY) - tabsRect.y <= 100 && setCurrent("buns");
-    Math.abs(saucesY) - tabsRect.y <= 100 && setCurrent("sauces");
-    Math.abs(mainY) - tabsRect.y <= 100 && setCurrent("main");
+    const bunY = ingredientsRef.buns.current!.getBoundingClientRect().y || 0;
+    const saucesY =
+      ingredientsRef.sauces.current!.getBoundingClientRect().y || 0;
+    const mainY = ingredientsRef.main.current!.getBoundingClientRect().y || 0;
+    Math.abs(bunY) - tabsRectY <= 100 && setCurrentTab("buns");
+    Math.abs(saucesY) - tabsRectY <= 100 && setCurrentTab("sauces");
+    Math.abs(mainY) - tabsRectY <= 100 && setCurrentTab("main");
   }
 
   useEffect(() => {
-    setTabsRect(tabsRef.current.getBoundingClientRect());
+    setTabsRectY(tabsRef.current!.getBoundingClientRect().y || 0);
   }, []);
 
-  function toggleTab(e) {
-    setCurrent(e);
-    ingredientsRef[e].current.scrollIntoView({ behavior: "smooth" });
+  function toggleTab(e: string) {
+    setCurrentTab(e);
+    ingredientsRef[e].current!.scrollIntoView({ behavior: "smooth" });
   }
 
-  const ingredientsCounter = {};
-  list.forEach((item) => {
-    ingredientsCounter[item._id] = filling.reduce(
-      (acc, ingredient) => (ingredient._id === item._id ? ++acc : acc),
-      null
+  const ingredientsCounter: TMonoTypeObject<number> = {};
+  filling.forEach((item) => {
+    ingredientsCounter[item["_id"]] = filling.reduce(
+      (acc, ingredient: TIngredient) =>
+        ingredient._id === item["_id"] ? ++acc : acc,
+      0
     );
   });
-  bun !== null && (ingredientsCounter[bun._id] = 2);
+  bun !== null && (ingredientsCounter[bun["_id"]] = 2);
 
   return (
     <section>
       <h2 className="text text_type_main-large mt-5 mb-3">Соберите бургер</h2>
       <nav className={styles.ingredients__section} ref={tabsRef}>
-        <Tab value="buns" active={current === "buns"} onClick={toggleTab}>
+        <Tab value="buns" active={currentTab === "buns"} onClick={toggleTab}>
           Булки
         </Tab>
-        <Tab value="sauces" active={current === "sauces"} onClick={toggleTab}>
+        <Tab
+          value="sauces"
+          active={currentTab === "sauces"}
+          onClick={toggleTab}
+        >
           Соусы
         </Tab>
-        <Tab value="main" active={current === "main"} onClick={toggleTab}>
+        <Tab value="main" active={currentTab === "main"} onClick={toggleTab}>
           Начинки
         </Tab>
       </nav>
@@ -87,6 +104,7 @@ function BurgerIngredients() {
         onScroll={scrollRef}
       >
         <h2
+          // @ts-ignore
           ref={ingredientsRef.buns}
           className="text text_type_main-medium mt-5"
         >
@@ -104,6 +122,7 @@ function BurgerIngredients() {
           })}
         </div>
         <h2
+          // @ts-ignore
           ref={ingredientsRef.sauces}
           className="text text_type_main-medium mt-5"
         >
@@ -121,6 +140,7 @@ function BurgerIngredients() {
           })}
         </div>
         <h2
+          // @ts-ignore
           ref={ingredientsRef.main}
           id="section-3"
           className="text text_type_main-medium mt-5"
@@ -141,6 +161,6 @@ function BurgerIngredients() {
       </div>
     </section>
   );
-}
+};
 
 export default BurgerIngredients;

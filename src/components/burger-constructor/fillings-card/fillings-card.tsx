@@ -5,26 +5,45 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useDrag, useDrop } from "react-dnd";
 import { useDispatch } from "react-redux";
-import { useRef } from "react";
+import { useRef, JSX, SyntheticEvent } from "react";
 import {
   removeFilling,
   sortFilling,
 } from "../../../services/store/buger-constructor/reducers";
-import { ingredientsPropTypes } from "../../../utils/ingredients-prop-types";
-import PropTypes from "prop-types";
+import { TIngredient } from "../../../utils/types";
+import { Identifier } from "dnd-core";
 
-export function FillingsCard({ ingredient, index }) {
+type TFillingsCardProps = {
+  ingredient: TIngredient;
+  index: number;
+};
+
+type TDnDDragObject = {
+  ingredient: TIngredient;
+  index: number;
+};
+
+type TDropCollectedProps = {
+  handlerId: Identifier | null;
+};
+
+export function FillingsCard({
+  ingredient,
+  index,
+}: TFillingsCardProps): JSX.Element {
   const dispatch = useDispatch();
-  function deleteButtonHandler(e) {
-    const index =
-      e.target.parentElement.parentElement.parentElement.parentElement
-        .parentElement.dataset.index;
+
+  function deleteButtonHandler() {
     dispatch(removeFilling(index));
   }
 
-  const ref = useRef(null);
+  const ref = useRef<HTMLDivElement | null>(null);
 
-  const [{ handlerId }, drop] = useDrop({
+  const [{ handlerId }, drop] = useDrop<
+    TDnDDragObject,
+    unknown,
+    TDropCollectedProps
+  >({
     accept: "sortable",
     collect(monitor) {
       return {
@@ -44,7 +63,7 @@ export function FillingsCard({ ingredient, index }) {
       const hoverMiddleY =
         (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
       const clientOffset = monitor.getClientOffset();
-      const hoverClientY = clientOffset.y - hoverBoundingRect.top;
+      const hoverClientY = clientOffset!.y - hoverBoundingRect.top;
 
       if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
         return;
@@ -75,7 +94,7 @@ export function FillingsCard({ ingredient, index }) {
       data-handler-id={handlerId}
     >
       <div className={styles.fillings__dragicon}>
-      <DragIcon  />
+        <DragIcon type="primary" />
       </div>
       <ConstructorElement
         text={ingredient.name}
@@ -86,8 +105,3 @@ export function FillingsCard({ ingredient, index }) {
     </div>
   );
 }
-
-FillingsCard.propTypes = {
-  ingredient: ingredientsPropTypes,
-  index: PropTypes.number
-};

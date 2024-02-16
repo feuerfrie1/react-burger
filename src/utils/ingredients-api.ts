@@ -1,11 +1,23 @@
+type TFetchOptions =
+  | {
+      method: string;
+      headers: {
+        [name: string]: string;
+      };
+      body: string;
+    }
+  | undefined;
 
-export const ingredientsApi = 'https://norma.nomoreparties.space/api';
+export const ingredientsApi = "https://norma.nomoreparties.space/api";
 
-const checkResponse = (res) => {
+const checkResponse = (res: Response) => {
   return res.ok ? res.json() : res.json().then((err) => Promise.reject(err));
 };
 
-export async function makeRequest(ingredientsApi, options = {}) {
+export async function makeRequest(
+  ingredientsApi: string,
+  options: TFetchOptions = undefined
+) {
   const response = await fetch(ingredientsApi, options);
   return checkResponse(response);
 }
@@ -22,11 +34,14 @@ export const refreshToken = async () => {
   });
 };
 
-export const refreshTokenRequest = async (ingredientsApi, options) => {
+export const refreshTokenRequest = async (
+  ingredientsApi: string,
+  options: TFetchOptions = undefined
+) => {
   try {
     return await makeRequest(ingredientsApi, options);
   } catch (err) {
-    if (err.message === "jwt expired") {
+    if (err === "jwt expired" && options) {
       const refreshData = await refreshToken();
       if (!refreshData.success) {
         return Promise.reject(refreshData);

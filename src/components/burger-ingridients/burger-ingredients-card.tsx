@@ -1,15 +1,22 @@
 import styles from "../burger-ingridients/burger-ingredients.module.css";
-import { useState } from "react";
+import { useState, JSX } from "react";
 import {
   CurrencyIcon,
   Counter,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { ingredientsPropTypes } from "../../utils/ingredients-prop-types";
 import { useDrag } from "react-dnd";
 import { Link, useLocation } from "react-router-dom";
-import PropTypes from "prop-types";
+import { TIngredient } from "../../utils/types";
 
-export default function BurgerIngredientsCard({ ingredient, count }) {
+type TBurgerIngredientsCardProps = {
+  ingredient: TIngredient;
+  count: number;
+};
+
+export default function BurgerIngredientsCard({
+  ingredient,
+  count,
+}: TBurgerIngredientsCardProps): JSX.Element {
   const [isModalActive, setModalActive] = useState(false);
   function toggleModal() {
     setModalActive(!isModalActive);
@@ -35,7 +42,6 @@ export default function BurgerIngredientsCard({ ingredient, count }) {
             className={styles.image}
             src={ingredient.image}
             alt={ingredient.name}
-            type={ingredient.bun}
             ref={dragRef}
           />
           <div className={styles.ingredients__price}>
@@ -55,8 +61,3 @@ export default function BurgerIngredientsCard({ ingredient, count }) {
     </section>
   );
 }
-
-BurgerIngredientsCard.propTypes = {
-  ingredient: ingredientsPropTypes.isRequired,
-  count: PropTypes.number,
-};

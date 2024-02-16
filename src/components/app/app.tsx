@@ -24,7 +24,9 @@ export default function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    // @ts-ignore
     dispatch(checkUserAuth());
+    // @ts-ignore
     dispatch(fetchIngredients());
   }, [dispatch]);
 
@@ -50,7 +52,7 @@ export default function App() {
         <Route path="/orders" element={<Orders />} />
         <Route path="/profile" element={<Auth component={<Profile />} />}>
           <Route index element={<User />} />
-          <Route path="orders" element={<Orders/>}/>
+          <Route path="orders" element={<Orders />} />
           <Route path="*" element={<NotFound404 />} />
         </Route>
         <Route path="/ingredients/:id" element={<IngredientDetails />} />

@@ -1,38 +1,42 @@
 import styles from "../login/login.module.css";
 import Form from "../../components/form/form";
 import { useInput } from "../../hooks/useInput";
-import {useLocation, useNavigate} from "react-router-dom";
-import {ingredientsApi, makeRequest } from "../../utils/ingredients-api";
+import { useLocation, useNavigate } from "react-router-dom";
+import { ingredientsApi, makeRequest } from "../../utils/ingredients-api";
+import { JSX, SyntheticEvent } from "react";
 
-export default function ForgotPassword() {
+type TResetPassword = {
+  email: string;
+};
 
+export default function ForgotPassword(): JSX.Element {
   const location = useLocation();
   const navigate = useNavigate();
 
   const email = useInput({
     name: "email",
-    placeholder: "E-mail",
-    type: "email",
+    placeholder: "Укажите e-mail",
   });
 
-  async function resetPassword (body) {
+  async function resetPassword(body: TResetPassword) {
     return await makeRequest(`${ingredientsApi}/password-reset`, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json;charset=utf-8',
+        "Content-Type": "application/json;charset=utf-8",
       },
-      body: JSON.stringify({...body})
+      body: JSON.stringify({ ...body }),
     });
   }
 
-  function handleSubmit(e) {
+  function handleSubmit(e: SyntheticEvent) {
     e.preventDefault();
     resetPassword({
-      email: email.value
-    }).then(()=>{
-      return navigate('/reset-password', {state: {from: location.pathname}})
-    })
-
+      email: email.value,
+    }).then(() => {
+      return navigate("/reset-password", {
+        state: { from: location.pathname },
+      });
+    });
   }
 
   return (
@@ -46,7 +50,7 @@ export default function ForgotPassword() {
       <p className="text text_type_main-default text_color_inactive mt-20">
         Вспомнили пароль?{" "}
         <a
-          href='/login'
+          href="/login"
           className={`${styles.link} text text_type_main-default ml-2`}
         >
           Войти

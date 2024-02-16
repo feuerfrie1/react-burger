@@ -3,8 +3,9 @@ import Form from "../../components/form/form";
 import { useInput, usePasswordInput } from "../../hooks/useInput";
 import { useDispatch } from "react-redux";
 import { login } from "../../services/store/user/actions";
+import { JSX, SyntheticEvent } from "react";
 
-export default function Login() {
+export default function Login(): JSX.Element {
   const email = useInput({
     name: "email",
     placeholder: "E-mail",
@@ -12,12 +13,15 @@ export default function Login() {
   });
 
   const password = usePasswordInput({
+    name: "password",
     placeholder: "Пароль",
+    type: "password",
   });
 
-  function handleSubmit(e) {
+  function handleSubmit(e: SyntheticEvent) {
     e.preventDefault();
     dispatch(
+      // @ts-ignore
       login({
         email: email.value,
         password: password.value,
