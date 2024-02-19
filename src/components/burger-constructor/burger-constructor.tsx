@@ -24,8 +24,18 @@ import {
   selectOrderNumber,
 } from "../../services/store/order/reducers";
 import { selectUser } from "../../services/store/user/reducers";
+import { JSX } from "react";
+import { TIngredient } from "../../utils/types";
 
-function BurgerConstructor() {
+type TBurgerConstructorProps = {
+  ingredient: TIngredient;
+  index: number;
+};
+
+function BurgerConstructor({
+  ingredient,
+  index,
+}: TBurgerConstructorProps): JSX.Element {
   const dispatch = useDispatch();
 
   const bun = useSelector(selectBun);
@@ -34,18 +44,18 @@ function BurgerConstructor() {
   const user = useSelector(selectUser);
   const navigate = useNavigate();
 
-  function bunDrop(ingredient) {
+  function bunDrop(ingredient: TIngredient) {
     dispatch(setBun(ingredient));
   }
 
-  const [, topBunDropTarget] = useDrop({
+  const [, topBunDropTarget] = useDrop<TIngredient, unknown>({
     accept: "bun",
     drop(ingredient) {
       bunDrop(ingredient);
     },
   });
 
-  const [, bottomBunDropTarget] = useDrop({
+  const [, bottomBunDropTarget] = useDrop<TIngredient, unknown>({
     accept: "bun",
     drop(ingredient) {
       bunDrop(ingredient);
@@ -54,10 +64,10 @@ function BurgerConstructor() {
 
   const totalPrice = useMemo(() => {
     let result = 0;
-    bun && (result += bun.price * 2);
+    bun && (result += bun["price"] * 2);
     filling.length !== 0 &&
       (result += filling.reduce(
-        (acc, ingredient) => acc + ingredient.price,
+        (acc, ingredient) => acc + ingredient["price"],
         0
       ));
     return result;
@@ -67,7 +77,8 @@ function BurgerConstructor() {
     if (!user) return navigate("/login");
     if (bun === null || filling.length === 0) return;
     const ingredients = [bun, ...filling, bun];
-    const ids = ingredients.map((item) => item._id);
+    const ids = ingredients.map((item: TIngredient) => item["_id"]);
+    // @ts-ignore
     dispatch(makeOrder(ids));
   }, [dispatch, filling]);
 
@@ -83,7 +94,7 @@ function BurgerConstructor() {
       <div className={`${styles.burger__constructor_elements} mt-25 mb-10`}>
         <Bun viewType="top" ref={topBunDropTarget} viewTypeText="top" />
         <Fillings>
-          <FillingsCard />
+          <FillingsCard ingredient={ingredient} index={index} />
         </Fillings>
         <Bun
           viewType="bottom"

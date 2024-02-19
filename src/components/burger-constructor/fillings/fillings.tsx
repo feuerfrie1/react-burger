@@ -6,19 +6,29 @@ import {
 } from "../../../services/store/buger-constructor/reducers";
 import { useDrop } from "react-dnd";
 import { FillingsCard } from "../fillings-card/fillings-card";
+import { JSX, ReactNode } from "react";
+import { TIngredient } from "../../../utils/types";
 
-export function Fillings() {
-  const filling = useSelector(selectFilling);
+type TFillingsIngredient = TIngredient & {
+  constructorId: number;
+};
+
+type TFillingsIngredientProps = {
+  children: ReactNode;
+};
+
+export function Fillings({}: TFillingsIngredientProps): JSX.Element {
+  const filling: Array<TFillingsIngredient> = useSelector(selectFilling);
   const dispatch = useDispatch();
 
   const [, fillingDrop] = useDrop({
     accept: "filling",
-    drop(ingredient) {
+    drop(ingredient: TIngredient) {
       fillingDropHandler(ingredient);
     },
   });
 
-  function fillingDropHandler(ingredient) {
+  function fillingDropHandler(ingredient: TIngredient) {
     dispatch(addFilling(ingredient));
   }
   return (
@@ -29,11 +39,11 @@ export function Fillings() {
         </div>
       ) : (
         <div className={`${styles.fillings} custom-scroll`} ref={fillingDrop}>
-          {filling.map((item, index) => {
+          {filling.map((item: TFillingsIngredient, index) => {
             return (
               <FillingsCard
                 ingredient={item}
-                key={item.constructorId}
+                key={item["constructorId"]}
                 index={index}
               />
             );

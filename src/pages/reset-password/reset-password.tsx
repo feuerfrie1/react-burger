@@ -2,13 +2,20 @@ import styles from "../login/login.module.css";
 import Form from "../../components/form/form";
 import { ingredientsApi, makeRequest } from "../../utils/ingredients-api";
 import { Navigate, useLocation } from "react-router-dom";
-import { useInput, usePasswordInput } from "../../hooks/useInput";
+import { useInput } from "../../hooks/useInput";
+import { JSX, SyntheticEvent } from "react";
 
-export default function ResetPassword() {
+type TResetPassword = {
+  password: string;
+  token: string;
+};
+
+export default function ResetPassword(): JSX.Element {
   const location = useLocation();
 
-  const password = usePasswordInput({
-    placeholder: "Введите новый пароль  ",
+  const password = useInput({
+    name: "password",
+    placeholder: "Введите новый пароль",
   });
 
   const code = useInput({
@@ -20,7 +27,7 @@ export default function ResetPassword() {
     return <Navigate to="/" />;
   }
 
-  async function setNewPassword(body) {
+  async function setNewPassword(body: TResetPassword) {
     return await makeRequest(`${ingredientsApi}/password-reset/reset`, {
       method: "POST",
       headers: {
@@ -29,7 +36,7 @@ export default function ResetPassword() {
       body: JSON.stringify({ ...body }),
     });
   }
-  function handleSubmit(e) {
+  function handleSubmit(e: SyntheticEvent) {
     e.preventDefault();
     setNewPassword({
       password: password.value,

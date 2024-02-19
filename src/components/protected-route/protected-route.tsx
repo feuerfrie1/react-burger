@@ -4,15 +4,23 @@ import {
   selectIsAuthChecked,
   selectUser,
 } from "../../services/store/user/reducers";
-import PropTypes from "prop-types";
+import { JSX, ReactElement } from "react";
 
-const ProtectedRoute = ({ UnAuth = false, component }) => {
+type TProtectedRouteProps = {
+  UnAuth?: boolean;
+  component: ReactElement;
+};
+
+const ProtectedRoute = ({
+  UnAuth = false,
+  component,
+}: TProtectedRouteProps): JSX.Element => {
   const isAuthChecked = useSelector(selectIsAuthChecked);
   const user = useSelector(selectUser);
   const location = useLocation();
 
   if (!isAuthChecked) {
-    return null;
+    return null!;
   }
 
   if (UnAuth && user) {
@@ -27,11 +35,6 @@ const ProtectedRoute = ({ UnAuth = false, component }) => {
 };
 
 export const Auth = ProtectedRoute;
-export const UnAuth = ({ component }) => (
+export const UnAuth = ({ component }: TProtectedRouteProps) => (
   <ProtectedRoute UnAuth={true} component={component} />
 );
-
-ProtectedRoute.propTypes = {
-  UnAuth: PropTypes.bool,
-  component: PropTypes.element.isRequired,
-};

@@ -3,43 +3,51 @@ import {
   Button,
   Input,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useEffect, useState } from "react";
+import { useEffect, useState, JSX, SyntheticEvent } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getUser, editUser } from "../../services/store/user/actions";
 import { selectUser } from "../../services/store/user/reducers";
+import { TMonoTypeObject, TUser } from "../../utils/types";
+import { TICons } from "@ya.praktikum/react-developer-burger-ui-components/dist/ui/icons";
 
-export default function User() {
+type TUserIcons = {
+  [name: string]: keyof TICons | undefined;
+};
+
+export default function User(): JSX.Element {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    // @ts-ignore
     dispatch(getUser());
   }, []);
 
-  const user = useSelector(selectUser) || {};
+  const user: TUser | null = useSelector(selectUser);
 
-  const [name, setName] = useState(user.name);
-  const [email, setEmail] = useState(user.email);
+  const [name, setName] = useState(user!.name);
+  const [email, setEmail] = useState(user!.email);
   const [password, setPassword] = useState("");
 
   const [isEditButtonsShown, setIsEditButtonsShown] = useState(false);
 
-  const [icons, setIcons] = useState({
+  const [icons, setIcons] = useState<TUserIcons>({
     name: "EditIcon",
     email: "EditIcon",
     password: "EditIcon",
   });
 
-  function startEditingPersonalData(e) {
+  function startEditingPersonalData(e: SyntheticEvent) {
+    const target = e.target as HTMLInputElement;
     setIsEditButtonsShown(true);
     setIcons({
       ...icons,
-      [e.target.name]: "CloseIcon",
+      [target.name]: "CloseIcon",
     });
   }
 
   function cancelEditingPersonalData() {
-    setName(user.name);
-    setEmail(user.email);
+    setName(user ? user["name"] : "");
+    setEmail(user ? user["email"] : "");
     setPassword("");
     finishEditingPersonalData();
   }
@@ -53,20 +61,23 @@ export default function User() {
     });
   }
 
-  function confirmEditingPersonalData(e) {
+  function confirmEditingPersonalData(e: SyntheticEvent) {
     e.preventDefault();
-    const data = {};
-    if (name !== user.name) {
-      data.name = name;
+    const data: TMonoTypeObject<string> = {};
+    if (user) {
+      if (name !== user.name) {
+        data.name = name;
+      }
+      if (email !== user.email) {
+        data.email = email;
+      }
+      if (password !== "") {
+        data.password = password;
+      }
+      // @ts-ignore
+      dispatch(editUser(data));
+      finishEditingPersonalData();
     }
-    if (email !== user.email) {
-      data.email = email;
-    }
-    if (password !== "") {
-      data.password = password;
-    }
-    dispatch(editUser(data));
-    finishEditingPersonalData();
   }
 
   return (

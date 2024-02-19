@@ -3,14 +3,26 @@ import {
   Button,
   Input,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useRef, useEffect } from "react";
-import PropTypes from "prop-types";
+import { useRef, useEffect, SyntheticEvent } from "react";
+import { TUseInput } from "../../hooks/useInput";
 
-export default function Form({ inputs, handleSubmit, buttonText }) {
-  const inputRef = useRef(null);
+type TForm = {
+  inputs: Array<TUseInput>;
+  handleSubmit: (event: SyntheticEvent) => void;
+  buttonText: string;
+};
+
+export default function Form({
+  inputs,
+  handleSubmit,
+  buttonText,
+}: TForm): JSX.Element {
+  const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    inputRef.current.focus();
+    if (inputRef && inputRef.current) {
+      inputRef.current.focus();
+    }
   }, []);
 
   return (
@@ -31,23 +43,9 @@ export default function Form({ inputs, handleSubmit, buttonText }) {
           />
         );
       })}
-      {handleSubmit && (
-        <Button htmlType="submit" type="primary" size="medium">
-          {buttonText}
-        </Button>
-      )}
+      <Button htmlType="submit" type="primary" size="medium">
+        {buttonText}
+      </Button>
     </form>
   );
 }
-
-Form.propTypes = {
-  inputs: PropTypes.arrayOf(
-    PropTypes.shape({
-      value: PropTypes.node.isRequired,
-      placeholder: PropTypes.string,
-      type: PropTypes.string,
-      name: PropTypes.string,
-      icon: PropTypes.string,
-    })
-  ),
-};

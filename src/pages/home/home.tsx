@@ -10,7 +10,24 @@ export default function Home() {
       <main className={styles.main}>
         <DndProvider backend={HTML5Backend}>
           <BurgerIngredients />
-          <BurgerConstructor />
+          <BurgerConstructor
+            ingredient={{
+              _id: "",
+              name: "",
+              type: "",
+              proteins: 0,
+              fat: 0,
+              carbohydrates: 0,
+              calories: 0,
+              price: 0,
+              image: "",
+              image_mobile: "",
+              image_large: "",
+              __v: 0,
+              constructorExtraType: "bun",
+            }}
+            index={0}
+          />
         </DndProvider>
       </main>
     </section>

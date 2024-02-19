@@ -3,12 +3,19 @@ import {
   ConstructorElement,
   DragIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { ingredientsPropTypes } from "../../utils/ingredients-prop-types";
+import { JSX } from "react";
+import { TIngredient } from "../../utils/types";
 
-export default function BurgerConstructorCard({ ingredient }) {
+type TBurgerConstructorCardProps = {
+  ingredient: TIngredient;
+};
+
+export default function BurgerConstructorCard({
+  ingredient,
+}: TBurgerConstructorCardProps): JSX.Element {
   return (
     <div className={styles.burger__constructor_element}>
-      <DragIcon />
+      <DragIcon type="primary" />
       <ConstructorElement
         text={ingredient.name}
         price={ingredient.price}
@@ -17,7 +24,3 @@ export default function BurgerConstructorCard({ ingredient }) {
     </div>
   );
 }
-
-BurgerConstructorCard.propTypes = {
-  ingredient: ingredientsPropTypes.isRequired,
-};

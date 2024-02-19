@@ -2,6 +2,7 @@ import styles from "../profile/profile.module.css";
 import { useNavigate, useLocation, Link, Outlet } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { logout } from "../../services/store/user/actions";
+import { SyntheticEvent } from "react";
 
 export default function Profile() {
   const navigate = useNavigate();
@@ -11,8 +12,9 @@ export default function Profile() {
   const dispatch = useDispatch();
 
   const onExit = () => {
+    // @ts-ignore
     dispatch(logout());
-    navigate('/login', {replace: true});
+    navigate("/login", { replace: true });
   };
 
   return (

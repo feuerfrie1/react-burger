@@ -1,27 +1,30 @@
 import styles from "../login/login.module.css";
 import Form from "../../components/form/form";
-import { useInput, usePasswordInput } from "../../hooks/useInput";
+import { useInput } from "../../hooks/useInput";
 import { register } from "../../services/store/user/actions";
 import { useDispatch } from "react-redux";
+import { SyntheticEvent } from "react";
 
-export default function Register() {
+export default function Register(): JSX.Element {
   const name = useInput({
+    name: "name",
     placeholder: "Имя",
   });
 
   const email = useInput({
     name: "email",
-    placeholder: "E-mail",
-    type: "email",
+    placeholder: "E-Mail",
   });
 
-  const password = usePasswordInput({
+  const password = useInput({
+    name: "password",
     placeholder: "Пароль",
   });
 
-  function handleSubmit(e) {
+  function handleSubmit(e: SyntheticEvent) {
     e.preventDefault();
     dispatch(
+      // @ts-ignore
       register({
         email: email.value,
         password: password.value,
