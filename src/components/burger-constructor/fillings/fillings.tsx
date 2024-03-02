@@ -2,7 +2,7 @@ import styles from "../fillings/fillings.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import {
   addFilling,
-  selectFilling,
+  selectFillings,
 } from "../../../services/store/buger-constructor/reducers";
 import { useDrop } from "react-dnd";
 import { FillingsCard } from "../fillings-card/fillings-card";
@@ -10,7 +10,7 @@ import { JSX, ReactNode } from "react";
 import { TIngredient } from "../../../utils/types";
 
 type TFillingsIngredient = TIngredient & {
-  constructorId: number;
+  constructorId?: number;
 };
 
 type TFillingsIngredientProps = {
@@ -18,7 +18,7 @@ type TFillingsIngredientProps = {
 };
 
 export function Fillings({}: TFillingsIngredientProps): JSX.Element {
-  const filling: Array<TFillingsIngredient> = useSelector(selectFilling);
+  const filling: Array<TFillingsIngredient> = useSelector(selectFillings);
   const dispatch = useDispatch();
 
   const [, fillingDrop] = useDrop({

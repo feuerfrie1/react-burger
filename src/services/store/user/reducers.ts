@@ -1,7 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { TUser } from "../../../utils/types";
 import { login, register, getUser, editUser, logout } from "./actions";
 
-const initialState = {
+type TInitialState = {
+  user: TUser | null;
+  isAuthChecked: boolean;
+}
+
+const initialState: TInitialState = {
   user: null,
   isAuthChecked: false,
 };
@@ -49,3 +55,7 @@ export const { setAuthChecked } = actions;
 export const { selectUser, selectIsAuthChecked } = selectors;
 
 export default reducer;
+
+type TUserActionCreators = typeof userSlice.actions;
+
+export type TUserActions = ReturnType<TUserActionCreators[keyof TUserActionCreators]>;

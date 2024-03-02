@@ -1,0 +1,6 @@
+.orderlist {
+  grid-column: 1;
+  width: auto;
+  height: 756px;
+  overflow-y: auto;
+}

@@ -1,0 +1,35 @@
+.ordercard {
+  background-color: rgba(28, 28, 33, 1);
+  width: 100%;
+  height: fit-content;
+  min-height: 214px;
+  border: 2px;
+  border-radius: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.ordercard__container {
+  width: 536px;
+}
+
+.ordercard__number {
+  display: flex;
+  justify-content: space-between;
+}
+
+.ordercard__ingredients {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.ordercard__ingredients_list {
+  display: flex;
+}
+
+.ordercard__ingredients_price {
+  display: flex;
+}

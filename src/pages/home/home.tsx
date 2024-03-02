@@ -3,8 +3,9 @@ import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import BurgerConstructor from "../../components/burger-constructor/burger-constructor";
 import BurgerIngredients from "../../components/burger-ingridients/burger-ingredients";
+import { JSX } from "react";
 
-export default function Home() {
+export default function Home(): JSX.Element {
   return (
     <section className={styles.app}>
       <main className={styles.main}>

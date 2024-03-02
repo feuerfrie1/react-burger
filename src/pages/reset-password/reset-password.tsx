@@ -1,9 +1,10 @@
 import styles from "../login/login.module.css";
 import Form from "../../components/form/form";
-import { ingredientsApi, makeRequest } from "../../utils/ingredients-api";
+import { makeRequest } from "../../utils/ingredients-api";
 import { Navigate, useLocation } from "react-router-dom";
 import { useInput } from "../../hooks/useInput";
 import { JSX, SyntheticEvent } from "react";
+import { INGREDIENTS_API } from "../../utils/constants";
 
 type TResetPassword = {
   password: string;
@@ -28,7 +29,7 @@ export default function ResetPassword(): JSX.Element {
   }
 
   async function setNewPassword(body: TResetPassword) {
-    return await makeRequest(`${ingredientsApi}/password-reset/reset`, {
+    return await makeRequest(`${INGREDIENTS_API}/password-reset/reset`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json;charset=utf-8",

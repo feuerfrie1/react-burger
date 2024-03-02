@@ -14,6 +14,12 @@ export type TIngredient = {
   constructorExtraType: "bun" | "filling";
 };
 
+export type TFillingIngredient = TIngredient & {
+  constructorId?: number;
+};
+
+export type TIngredients = Pick<TIngredient, "constructorExtraType">;
+
 export type TMonoTypeObject<T> = {
   [name: string]: T;
 };
@@ -22,4 +28,14 @@ export type TUser = {
   name: string;
   email: string;
   password?: string;
+};
+
+export type TOrder = {
+  ingredients: Array<string>;
+  _id: string;
+  status: "pending" | "done" | "created" | "cancelled";
+  name: string;
+  createdAt: string;
+  updatedAt: string;
+  number: number;
 };
