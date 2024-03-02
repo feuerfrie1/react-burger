@@ -2,8 +2,8 @@ import styles from "../login/login.module.css";
 import Form from "../../components/form/form";
 import { useInput } from "../../hooks/useInput";
 import { register } from "../../services/store/user/actions";
-import { useDispatch } from "react-redux";
 import { SyntheticEvent } from "react";
+import { useAppDispatch } from "../../services/store/hooks";
 
 export default function Register(): JSX.Element {
   const name = useInput({
@@ -33,7 +33,7 @@ export default function Register(): JSX.Element {
     );
   }
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   return (
     <div className={styles.wrap}>

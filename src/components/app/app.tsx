@@ -18,19 +18,17 @@ import { NotFound404 } from "../../pages/notfound/not-found";
 import Feed from "../../pages/feed/feed";
 import OrderDetails from "../modal/order-details/order-details";
 import UserOrders from "../../pages/user-orders/user-orders";
+import { useAppDispatch } from "../../services/store/hooks";
 
 export default function App() {
   const location = useLocation();
   const navigate = useNavigate();
   const background = location.state && location.state.background;
-  const dispatch = useDispatch();
-
+  const dispatch = useAppDispatch();
   useEffect(() => {
-    // @ts-ignore
     dispatch(checkUserAuth());
-    // @ts-ignore
     dispatch(fetchIngredients());
-  }, [dispatch]);
+  }, [dispatch])
 
   const closeModal = () => {
     navigate(-1);

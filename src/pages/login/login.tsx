@@ -1,9 +1,9 @@
 import styles from "../login/login.module.css";
 import Form from "../../components/form/form";
 import { useInput, usePasswordInput } from "../../hooks/useInput";
-import { useDispatch } from "react-redux";
 import { login } from "../../services/store/user/actions";
 import { JSX, FormEvent } from "react";
+import { useAppDispatch } from "../../services/store/hooks";
 
 export default function Login(): JSX.Element {
   const email = useInput({
@@ -29,7 +29,7 @@ export default function Login(): JSX.Element {
     );
   }
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   return (
     <div className={styles.wrap}>

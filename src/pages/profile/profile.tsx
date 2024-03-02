@@ -1,14 +1,14 @@
 import styles from "../profile/profile.module.css";
 import { useNavigate, useLocation, Link, Outlet } from "react-router-dom";
-import { useDispatch } from "react-redux";
 import { logout } from "../../services/store/user/actions";
+import { useAppDispatch } from "../../services/store/hooks";
 
 export default function Profile() {
   const navigate = useNavigate();
 
   const location = useLocation();
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const onExit = () => {
     // @ts-ignore
