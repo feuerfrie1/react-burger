@@ -1,9 +1,15 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, SerializedError } from "@reduxjs/toolkit";
 import { makeOrder } from "./actions";
 
-const initialState = {
+type TInitialState = {
+  loading: boolean;
+  error: SerializedError | null;
+  order: number | null;
+};
+
+const initialState: TInitialState = {
   loading: false,
-  error: false,
+  error: null,
   order: null,
 };
 
@@ -18,7 +24,7 @@ const orderSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(makeOrder.pending, (state) => {
       state.loading = true;
-      state.error = false;
+      state.error = null;
     });
     builder.addCase(makeOrder.fulfilled, (state, action) => {
       state.loading = false;
@@ -39,3 +45,9 @@ const { actions, reducer, selectors } = orderSlice;
 export const { clearOrder } = actions;
 export const { selectOrderNumber } = selectors;
 export default reducer;
+
+type TOrderActionCreators = typeof orderSlice.actions;
+
+export type TOrderActions = ReturnType<
+  TOrderActionCreators[keyof TOrderActionCreators]
+>;

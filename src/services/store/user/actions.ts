@@ -2,12 +2,44 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import {
   makeRequest,
   refreshTokenRequest,
-  ingredientsApi,
 } from "../../../utils/ingredients-api";
 import { setAuthChecked } from "./reducers";
+import { AppDispatch } from "../types";
+import { INGREDIENTS_API } from "../../../utils/constants";
 
-export const login = createAsyncThunk("user/login", async (body) => {
-  const res = await makeRequest(`${ingredientsApi}/auth/login`, {
+type TAuthRequest = {
+  email: string;
+  password: string;
+  name?: string;
+}
+
+type TAuthResponse = {
+  success: boolean;
+  name: string;
+  email: string;
+  user: {
+    "email": string;
+    "name": string;
+  };
+  accessToken: string;
+  refreshToken: string;
+}
+
+type TLogoutResponse = {
+  success: boolean;
+  message: string;
+}
+
+type TUserResponse = {
+  success: boolean;
+  user: {
+    email: string;
+    name: string;
+  }
+}
+
+export const login = createAsyncThunk("user/login", async (body: TAuthRequest) => {
+  const res = await makeRequest<TAuthResponse>(`${INGREDIENTS_API}/auth/login`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json;charset=utf-8",
@@ -19,8 +51,8 @@ export const login = createAsyncThunk("user/login", async (body) => {
   return res;
 });
 
-export const register = createAsyncThunk("user/register", async (body) => {
-  const res = await makeRequest(`${ingredientsApi}/auth/register`, {
+export const register = createAsyncThunk("user/register", async (body: TAuthRequest) => {
+  const res = await makeRequest<TAuthResponse>(`${INGREDIENTS_API}/auth/register`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json;charset=utf-8",
@@ -33,11 +65,11 @@ export const register = createAsyncThunk("user/register", async (body) => {
 });
 
 export const getUser = createAsyncThunk("user/getUser", async () => {
-  const res = await refreshTokenRequest(`${ingredientsApi}/auth/user`, {
+  const res = await refreshTokenRequest<TUserResponse>(`${INGREDIENTS_API}/auth/user`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json;charset=utf-8",
-      authorization: localStorage.getItem("accessToken"),
+      authorization: localStorage.getItem("accessToken") || '',
     },
   });
   if (!res.success) {
@@ -47,19 +79,19 @@ export const getUser = createAsyncThunk("user/getUser", async () => {
   return res;
 });
 
-export const editUser = createAsyncThunk("user/patchUser", async (body) => {
-  return await refreshTokenRequest(`${ingredientsApi}/auth/user`, {
+export const editUser = createAsyncThunk("user/patchUser", async (body: TAuthRequest) => {
+  return await refreshTokenRequest<TUserResponse>(`${INGREDIENTS_API}/auth/user`, {
     method: "PATCH",
     headers: {
       "Content-Type": "application/json;charset=utf-8",
-      authorization: localStorage.getItem("accessToken"),
+      authorization: localStorage.getItem("accessToken")  || '',
     },
     body: JSON.stringify({ ...body }),
   });
 });
 
 export const logout = createAsyncThunk("user/logout", async () => {
-  const res = await makeRequest(`${ingredientsApi}/auth/logout`, {
+  const res = await makeRequest<TLogoutResponse>(`${INGREDIENTS_API}/auth/logout`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json;charset=utf-8",
@@ -73,7 +105,7 @@ export const logout = createAsyncThunk("user/logout", async () => {
   return res;
 });
 
-export const checkUserAuth = () => (dispatch) => {
+export const checkUserAuth = () => (dispatch: AppDispatch) => {
   if (localStorage.getItem("accessToken")) {
     dispatch(getUser());
   } else {

@@ -9,23 +9,23 @@ import {
   JSX,
   MutableRefObject,
 } from "react";
-import { useSelector } from "react-redux";
 import { selectIngredients } from "../../services/store/burger-ingredients/reducers";
 import {
   selectBun,
-  selectFilling,
+  selectFillings,
 } from "../../services/store/buger-constructor/reducers";
 import { TIngredient, TMonoTypeObject } from "../../utils/types";
+import { useAppSelector } from "../../services/store/hooks";
 
 type TBurgerIngredients = {
   [name: string]: MutableRefObject<HTMLElement | null>;
 };
 
 const BurgerIngredients = (): JSX.Element => {
-  const list: Array<TIngredient> = useSelector(selectIngredients);
+  const list: Array<TIngredient> = useAppSelector(selectIngredients);
 
-  const filling: Array<TIngredient> = useSelector(selectFilling);
-  const bun: TIngredient | null = useSelector(selectBun);
+  const filling: Array<TIngredient> = useAppSelector(selectFillings);
+  const bun: TIngredient | null = useAppSelector(selectBun);
 
   const buns = useMemo(
     () => list.filter((item) => item.type === "bun"),

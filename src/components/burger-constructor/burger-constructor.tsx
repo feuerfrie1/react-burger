@@ -6,16 +6,15 @@ import {
   CurrencyIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import Modal from "../modal/modal";
-import OrderDetails from "../modal/order-details/order-details";
+import OrderAccepted from "../modal/order-accepted/order-accepted";
 import { useDrop } from "react-dnd";
-import { useDispatch, useSelector } from "react-redux";
 import { setBun } from "../../services/store/buger-constructor/reducers";
 import { Bun } from "./bun/bun";
 import { Fillings } from "./fillings/fillings";
 import { FillingsCard } from "./fillings-card/fillings-card";
 import {
   selectBun,
-  selectFilling,
+  selectFillings,
   clearConstructorState,
 } from "../../services/store/buger-constructor/reducers";
 import { makeOrder } from "../../services/store/order/actions";
@@ -26,6 +25,7 @@ import {
 import { selectUser } from "../../services/store/user/reducers";
 import { JSX } from "react";
 import { TIngredient } from "../../utils/types";
+import { useAppDispatch, useAppSelector } from "../../services/store/hooks";
 
 type TBurgerConstructorProps = {
   ingredient: TIngredient;
@@ -36,12 +36,12 @@ function BurgerConstructor({
   ingredient,
   index,
 }: TBurgerConstructorProps): JSX.Element {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
-  const bun = useSelector(selectBun);
-  const filling = useSelector(selectFilling);
+  const bun: TIngredient | null = useAppSelector(selectBun);
+  const filling = useAppSelector(selectFillings);
 
-  const user = useSelector(selectUser);
+  const user = useAppSelector(selectUser);
   const navigate = useNavigate();
 
   function bunDrop(ingredient: TIngredient) {
@@ -78,11 +78,10 @@ function BurgerConstructor({
     if (bun === null || filling.length === 0) return;
     const ingredients = [bun, ...filling, bun];
     const ids = ingredients.map((item: TIngredient) => item["_id"]);
-    // @ts-ignore
     dispatch(makeOrder(ids));
   }, [dispatch, filling]);
 
-  const orderNumber = useSelector(selectOrderNumber);
+  const orderNumber = useAppSelector(selectOrderNumber);
 
   const onCloseModal = useCallback(() => {
     dispatch(clearOrder());
@@ -119,7 +118,7 @@ function BurgerConstructor({
       <div>
         {orderNumber && (
           <Modal onClose={onCloseModal}>
-            <OrderDetails />
+            <OrderAccepted />
           </Modal>
         )}
       </div>

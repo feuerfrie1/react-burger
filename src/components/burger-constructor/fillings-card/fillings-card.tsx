@@ -4,14 +4,14 @@ import {
   DragIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useDrag, useDrop } from "react-dnd";
-import { useDispatch } from "react-redux";
-import { useRef, JSX, SyntheticEvent } from "react";
+import { useRef, JSX } from "react";
 import {
   removeFilling,
   sortFilling,
 } from "../../../services/store/buger-constructor/reducers";
 import { TIngredient } from "../../../utils/types";
 import { Identifier } from "dnd-core";
+import { useAppDispatch } from "../../../services/store/hooks";
 
 type TFillingsCardProps = {
   ingredient: TIngredient;
@@ -31,7 +31,7 @@ export function FillingsCard({
   ingredient,
   index,
 }: TFillingsCardProps): JSX.Element {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   function deleteButtonHandler() {
     dispatch(removeFilling(index));

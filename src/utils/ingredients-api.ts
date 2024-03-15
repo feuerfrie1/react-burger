@@ -1,29 +1,35 @@
+import { INGREDIENTS_API } from "./constants";
+
 type TFetchOptions =
   | {
       method: string;
       headers: {
         [name: string]: string;
       };
-      body: string;
+      body?: string;
     }
   | undefined;
 
-export const ingredientsApi = "https://norma.nomoreparties.space/api";
+type TRefreshData = {
+  success: string;
+  refreshToken: string;
+  accessToken: string;
+};
 
 const checkResponse = (res: Response) => {
   return res.ok ? res.json() : res.json().then((err) => Promise.reject(err));
 };
 
-export async function makeRequest(
-  ingredientsApi: string,
+export async function makeRequest<T>(
+  url: string,
   options: TFetchOptions = undefined
-) {
-  const response = await fetch(ingredientsApi, options);
+): Promise<T> {
+  const response = await fetch(url, options);
   return checkResponse(response);
 }
 
-export const refreshToken = async () => {
-  return await makeRequest(`${ingredientsApi}/auth/token`, {
+export async function refreshToken(): Promise<TRefreshData> {
+  return await makeRequest(`${INGREDIENTS_API}/auth/token`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json;charset=utf-8",
@@ -32,25 +38,28 @@ export const refreshToken = async () => {
       token: localStorage.getItem("refreshToken"),
     }),
   });
-};
+}
 
-export const refreshTokenRequest = async (
-  ingredientsApi: string,
-  options: TFetchOptions = undefined
-) => {
+export const refreshTokenRequest = async <T>(
+  url: string,
+  options: TFetchOptions
+): Promise<T> => {
   try {
-    return await makeRequest(ingredientsApi, options);
+    return await makeRequest<T>(url, options);
   } catch (err) {
     if (err === "jwt expired" && options) {
-      const refreshData = await refreshToken();
-      if (!refreshData.success) {
-        return Promise.reject(refreshData);
+      let refreshData: TRefreshData;
+      try {
+        refreshData = await refreshToken();
+      } catch (err) {
+        localStorage.removeItem("accessToken");
+        localStorage.removeItem("refreshToken");
+        return Promise.reject(err);
       }
       localStorage.setItem("refreshToken", refreshData.refreshToken);
       localStorage.setItem("accessToken", refreshData.accessToken);
       options.headers.authorization = refreshData.accessToken;
-      const response = await fetch(ingredientsApi, options);
-      return await checkResponse(response);
+      return await makeRequest<T>(url, options);
     } else {
       return Promise.reject(err);
     }

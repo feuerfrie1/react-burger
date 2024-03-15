@@ -1,35 +1,25 @@
-import styles from "../order-details/order-details.module.css";
-import doneIcon from "../../../images/done.png";
-import { useSelector } from "react-redux";
-import { selectOrderNumber } from "../../../services/store/order/reducers";
+import { JSX, useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { INGREDIENTS_API } from "../../../utils/constants";
+import { makeRequest } from "../../../utils/ingredients-api";
+import { TOrder } from "../../../utils/types";
+import OrderCard from "../../order-card/order-card";
 
-export default function OrderDetails() {
+type TResponse = {
+  success: boolean;
+  orders: Array<TOrder>;
+};
 
-  const number = useSelector(selectOrderNumber);
+export default function OrderDetails(): JSX.Element {
+  const { id } = useParams();
 
-  return (
-    <section className={styles.orderdetails}>
-      <h2
-        className={`${styles.orderdetails__title} text text_type_digits-large`}
-      >
-        {number}
-      </h2>
-      <p
-        className={`${styles.orderdetails__text} text text_type_main-medium mt-8`}
-      >
-        идентификатор заказа
-      </p>
-      <img className="mt-15" src={doneIcon} alt="done"></img>
-      <p
-        className={`${styles.orderdetails__text} text text_type_main-default mt-15`}
-      >
-        Ваш заказ начали готовить
-      </p>
-      <p
-        className={`${styles.orderdetails__text} text text_type_main-default text_color_inactive mt-2 mb-30`}
-      >
-        Дождитесь готовности на орбитальной станции
-      </p>
-    </section>
-  );
+  const [order, setOrder] = useState<TOrder | null>(null);
+
+  useEffect(() => {
+    makeRequest<TResponse>(`${INGREDIENTS_API}/orders/${id}`).then((res) => {
+      setOrder(res.orders[0]);
+    });
+  }, [id]);
+
+  return <>{order && <OrderCard order={order} view="details" />}</>;
 }

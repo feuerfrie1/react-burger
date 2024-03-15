@@ -20,7 +20,7 @@ function Header(): JSX.Element {
             title="Конструктор"
           ></AppHeaderLinks>
           <AppHeaderLinks
-            href="/orders"
+            href="/feed"
             icon={<ListIcon type="primary" />}
             title="Лента заказов"
           ></AppHeaderLinks>
