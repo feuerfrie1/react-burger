@@ -1,0 +1,9 @@
+{
+    "success": true,
+    "accessToken": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1ZGNkMzM5OTdlZGUwMDAxZDA1ZThhYSIsImlhdCI6MTcxMDUyNzQ2MiwiZXhwIjoxNzEwNTI4NjYyfQ.Xo8-6rvlJDxrY-2Bi9RJoWHX3c5Qj3VxZ6Zrq2h7l2I",
+    "refreshToken": "a2bd90103aca1372383babd70d4f139d3dd833607554097353a22bbd2a2c5e9e57cfc7d72223364d",
+    "user": {
+        "email": "user10@yandex.ru",
+        "name": "qwer"
+    }
+}

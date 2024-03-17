@@ -43,6 +43,7 @@ export default function BurgerIngredientsCard({
             src={ingredient.image}
             alt={ingredient.name}
             ref={dragRef}
+            data-test-ingredient={ingredient._id}
           />
           <div className={styles.ingredients__price}>
             <p className="text text_type_digits-default m-1">

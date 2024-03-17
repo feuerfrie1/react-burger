@@ -5,6 +5,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { makeRequest } from "../../utils/ingredients-api";
 import { JSX, SyntheticEvent } from "react";
 import { INGREDIENTS_API } from "../../utils/constants";
+import FormInput from "../../components/form/form-input/form-input";
 
 type TResetPassword = {
   email: string;
@@ -16,7 +17,6 @@ export default function ForgotPassword(): JSX.Element {
 
   const email = useInput({
     name: "email",
-    placeholder: "Укажите e-mail",
   });
 
   async function resetPassword(body: TResetPassword) {
@@ -43,11 +43,12 @@ export default function ForgotPassword(): JSX.Element {
   return (
     <div className={styles.wrap}>
       <h1 className="text text_type_main-medium pb-6">Восстановление пароля</h1>
-      <Form
-        inputs={[email]}
-        handleSubmit={handleSubmit}
-        buttonText="Восстановить"
-      />
+      <Form handleSubmit={handleSubmit} buttonText="Войти">
+        <FormInput
+          input={email}
+          placeholder="Укажите E-mail"
+        />
+      </Form>
       <p className="text text_type_main-default text_color_inactive mt-20">
         Вспомнили пароль?{" "}
         <a

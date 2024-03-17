@@ -111,6 +111,7 @@ function BurgerConstructor({
           htmlType="button"
           type="primary"
           size="large"
+          data-testid="orderButton"
         >
           Оформить заказ
         </Button>

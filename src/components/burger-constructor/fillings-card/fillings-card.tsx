@@ -92,6 +92,7 @@ export function FillingsCard({
       className={styles.fillings__card}
       data-index={index}
       data-handler-id={handlerId}
+      data-test-filling-id={ingredient._id}
     >
       <div className={styles.fillings__dragicon}>
         <DragIcon type="primary" />

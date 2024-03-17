@@ -1,0 +1,91 @@
+{
+    "success": true,
+    "name": "Антарианский флюоресцентный spicy бессмертный бургер",
+    "order": {
+        "ingredients": [
+            {
+                "_id": "643d69a5c3f7b9001cfa093d",
+                "name": "Флюоресцентная булка R2-D3",
+                "type": "bun",
+                "proteins": 44,
+                "fat": 26,
+                "carbohydrates": 85,
+                "calories": 643,
+                "price": 988,
+                "image": "https://code.s3.yandex.net/react/code/bun-01.png",
+                "image_mobile": "https://code.s3.yandex.net/react/code/bun-01-mobile.png",
+                "image_large": "https://code.s3.yandex.net/react/code/bun-01-large.png",
+                "__v": 0
+            },
+            {
+                "_id": "643d69a5c3f7b9001cfa0942",
+                "name": "Соус Spicy-X",
+                "type": "sauce",
+                "proteins": 30,
+                "fat": 20,
+                "carbohydrates": 40,
+                "calories": 30,
+                "price": 90,
+                "image": "https://code.s3.yandex.net/react/code/sauce-02.png",
+                "image_mobile": "https://code.s3.yandex.net/react/code/sauce-02-mobile.png",
+                "image_large": "https://code.s3.yandex.net/react/code/sauce-02-large.png",
+                "__v": 0
+            },
+            {
+                "_id": "643d69a5c3f7b9001cfa0945",
+                "name": "Соус с шипами Антарианского плоскоходца",
+                "type": "sauce",
+                "proteins": 101,
+                "fat": 99,
+                "carbohydrates": 100,
+                "calories": 100,
+                "price": 88,
+                "image": "https://code.s3.yandex.net/react/code/sauce-01.png",
+                "image_mobile": "https://code.s3.yandex.net/react/code/sauce-01-mobile.png",
+                "image_large": "https://code.s3.yandex.net/react/code/sauce-01-large.png",
+                "__v": 0
+            },
+            {
+                "_id": "643d69a5c3f7b9001cfa093f",
+                "name": "Мясо бессмертных моллюсков Protostomia",
+                "type": "main",
+                "proteins": 433,
+                "fat": 244,
+                "carbohydrates": 33,
+                "calories": 420,
+                "price": 1337,
+                "image": "https://code.s3.yandex.net/react/code/meat-02.png",
+                "image_mobile": "https://code.s3.yandex.net/react/code/meat-02-mobile.png",
+                "image_large": "https://code.s3.yandex.net/react/code/meat-02-large.png",
+                "__v": 0
+            },
+            {
+                "_id": "643d69a5c3f7b9001cfa093d",
+                "name": "Флюоресцентная булка R2-D3",
+                "type": "bun",
+                "proteins": 44,
+                "fat": 26,
+                "carbohydrates": 85,
+                "calories": 643,
+                "price": 988,
+                "image": "https://code.s3.yandex.net/react/code/bun-01.png",
+                "image_mobile": "https://code.s3.yandex.net/react/code/bun-01-mobile.png",
+                "image_large": "https://code.s3.yandex.net/react/code/bun-01-large.png",
+                "__v": 0
+            }
+        ],
+        "_id": "65f497d097ede0001d060c58",
+        "owner": {
+            "name": "qwer",
+            "email": "user10@yandex.ru",
+            "createdAt": "2024-02-26T18:06:49.468Z",
+            "updatedAt": "2024-02-26T18:06:49.468Z"
+        },
+        "status": "done",
+        "name": "Антарианский флюоресцентный spicy бессмертный бургер",
+        "createdAt": "2024-03-15T18:47:44.955Z",
+        "updatedAt": "2024-03-15T18:47:45.443Z",
+        "number": 36128,
+        "price": 3491
+    }
+}

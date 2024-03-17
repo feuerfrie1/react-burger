@@ -15,11 +15,9 @@ type TAuthRequest = {
 
 type TAuthResponse = {
   success: boolean;
-  name: string;
-  email: string;
   user: {
-    "email": string;
     "name": string;
+    "email": string;
   };
   accessToken: string;
   refreshToken: string;
@@ -65,19 +63,14 @@ export const register = createAsyncThunk("user/register", async (body: TAuthRequ
 });
 
 export const getUser = createAsyncThunk("user/getUser", async () => {
-  const res = await refreshTokenRequest<TUserResponse>(`${INGREDIENTS_API}/auth/user`, {
+  return await refreshTokenRequest<TUserResponse>(`${INGREDIENTS_API}/auth/user`, {
     method: "GET",
     headers: {
-      "Content-Type": "application/json;charset=utf-8",
-      authorization: localStorage.getItem("accessToken") || '',
+      'Content-Type': 'application/json;charset=utf-8',
+      authorization: localStorage.getItem('accessToken') || ''
     },
   });
-  if (!res.success) {
-    localStorage.removeItem("accessToken");
-    localStorage.removeItem("refreshToken");
-  }
-  return res;
-});
+})
 
 export const editUser = createAsyncThunk("user/patchUser", async (body: TAuthRequest) => {
   return await refreshTokenRequest<TUserResponse>(`${INGREDIENTS_API}/auth/user`, {
@@ -108,6 +101,7 @@ export const logout = createAsyncThunk("user/logout", async () => {
 export const checkUserAuth = () => (dispatch: AppDispatch) => {
   if (localStorage.getItem("accessToken")) {
     dispatch(getUser());
+    dispatch(setAuthChecked(true));
   } else {
     dispatch(setAuthChecked(true));
   }
