@@ -31,7 +31,6 @@ export default function Form({
         htmlType="submit"
         type="primary"
         size="medium"
-        data-testid="login-button"
       >
         {buttonText}
       </Button>

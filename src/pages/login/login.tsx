@@ -41,7 +41,7 @@ export default function Login(): JSX.Element {
           placeholder="Пароль"
           type="password"
           icon="ShowIcon"
-          testId="password-input"
+          testId='password-input'
         />
       </Form>
       <p className="text text_type_main-default text_color_inactive mt-20">
