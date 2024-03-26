@@ -7,7 +7,7 @@ type TInitialState = {
   isAuthChecked: boolean;
 }
 
-const initialState: TInitialState = {
+export const initialState: TInitialState = {
   user: null,
   isAuthChecked: false,
 };
@@ -27,7 +27,7 @@ export const userSlice = createSlice({
         state.isAuthChecked = true;
       })
       .addCase(register.fulfilled, (state, action) => {
-        state.user = action.payload;
+        state.user = action.payload.user;
         state.isAuthChecked = true;
       })
       .addCase(getUser.fulfilled, (state, action) => {

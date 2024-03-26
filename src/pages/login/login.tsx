@@ -1,27 +1,23 @@
 import styles from "../login/login.module.css";
 import Form from "../../components/form/form";
-import { useInput, usePasswordInput } from "../../hooks/useInput";
+import { useInput } from "../../hooks/useInput";
 import { login } from "../../services/store/user/actions";
-import { JSX, FormEvent } from "react";
+import { JSX, FormEvent, ChangeEvent } from "react";
 import { useAppDispatch } from "../../services/store/hooks";
+import FormInput from "../../components/form/form-input/form-input";
 
 export default function Login(): JSX.Element {
   const email = useInput({
     name: "email",
-    placeholder: "E-mail",
-    type: "email",
   });
 
-  const password = usePasswordInput({
+  const password = useInput({
     name: "password",
-    placeholder: "Пароль",
-    type: "password",
   });
 
   function handleSubmit(e: FormEvent) {
     e.preventDefault();
     dispatch(
-      // @ts-ignore
       login({
         email: email.value,
         password: password.value,
@@ -34,11 +30,20 @@ export default function Login(): JSX.Element {
   return (
     <div className={styles.wrap}>
       <h1 className="text text_type_main-medium pb-6">Вход</h1>
-      <Form
-        inputs={[email, password]}
-        handleSubmit={handleSubmit}
-        buttonText="Войти"
-      />
+      <Form handleSubmit={handleSubmit} buttonText="Войти">
+        <FormInput
+          input={email}
+          placeholder="E-mail"
+          testId='email-input'
+        />
+        <FormInput
+          input={password}
+          placeholder="Пароль"
+          type="password"
+          icon="ShowIcon"
+          testId='password-input'
+        />
+      </Form>
       <p className="text text_type_main-default text_color_inactive mt-20">
         Вы — новый пользователь?{" "}
         <a

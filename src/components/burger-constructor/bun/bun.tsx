@@ -18,11 +18,15 @@ export const Bun = forwardRef<HTMLDivElement, TBunProps>(
     return (
       <>
         {bun === null ? (
-          <div className={`${styles.clean} ${bunView}`} ref={ref}>
+          <div
+            className={`${styles.clean} ${bunView}`}
+            ref={ref}
+            data-test-drop="bun"
+          >
             <p className="text text_type_main-default">Выберите булки</p>
           </div>
         ) : (
-          <div ref={ref}>
+          <div ref={ref} data-test-drop="bun" data-test-bun-id={bun._id}>
             <ConstructorElement
               type={viewType}
               isLocked={true}

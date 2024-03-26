@@ -27,11 +27,11 @@ export default function Modal({
   }, []);
 
   return ReactDOM.createPortal(
-    <section className={styles.modal}>
+    <section className={styles.modal} data-test-modal='open'>
       <div className={styles.modal__content}>
         <header className={styles.modal__header}>
           <h2 className={styles.modal__header_text}>{title}</h2>
-          <div className={styles.modal__header_close}>
+          <div className={styles.modal__header_close} data-test-modal='close'>
             <CloseIcon type="primary" onClick={onClose} />
           </div>
         </header>

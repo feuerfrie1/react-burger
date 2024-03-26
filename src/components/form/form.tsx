@@ -3,19 +3,18 @@ import {
   Button,
   Input,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useRef, useEffect, SyntheticEvent } from "react";
-import { TUseInput } from "../../hooks/useInput";
+import { useRef, useEffect, SyntheticEvent, ReactNode, useState } from "react";
 
 type TForm = {
-  inputs: Array<TUseInput>;
   handleSubmit: (event: SyntheticEvent) => void;
   buttonText: string;
+  children: ReactNode;
 };
 
 export default function Form({
-  inputs,
   handleSubmit,
   buttonText,
+  children,
 }: TForm): JSX.Element {
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -27,23 +26,12 @@ export default function Form({
 
   return (
     <form onSubmit={handleSubmit} className={styles.form}>
-      {inputs.map((input, index) => {
-        return (
-          <Input
-            value={input.value}
-            placeholder={input.placeholder}
-            key={index}
-            type={input.type}
-            ref={index === 0 ? inputRef : null}
-            name={input.name}
-            onChange={(e) => input.setValue(e.target.value)}
-            icon={input.icon}
-            onIconClick={input.onIconClick}
-            extraClass="mb-5"
-          />
-        );
-      })}
-      <Button htmlType="submit" type="primary" size="medium">
+      {children}
+      <Button
+        htmlType="submit"
+        type="primary"
+        size="medium"
+      >
         {buttonText}
       </Button>
     </form>

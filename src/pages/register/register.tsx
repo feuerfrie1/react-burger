@@ -4,21 +4,19 @@ import { useInput } from "../../hooks/useInput";
 import { register } from "../../services/store/user/actions";
 import { SyntheticEvent } from "react";
 import { useAppDispatch } from "../../services/store/hooks";
+import FormInput from "../../components/form/form-input/form-input";
 
 export default function Register(): JSX.Element {
   const name = useInput({
     name: "name",
-    placeholder: "Имя",
   });
 
   const email = useInput({
     name: "email",
-    placeholder: "E-Mail",
   });
 
   const password = useInput({
     name: "password",
-    placeholder: "Пароль",
   });
 
   function handleSubmit(e: SyntheticEvent) {
@@ -38,11 +36,16 @@ export default function Register(): JSX.Element {
   return (
     <div className={styles.wrap}>
       <h1 className="text text_type_main-medium pb-6">Регистрация</h1>
-      <Form
-        inputs={[name, email, password]}
-        handleSubmit={handleSubmit}
-        buttonText="Зарегистрироваться"
-      />
+      <Form handleSubmit={handleSubmit} buttonText="Зарегистрироваться">
+        <FormInput input={name} placeholder="Имя" />
+        <FormInput input={email} placeholder="E-mail" />
+        <FormInput
+          input={password}
+          placeholder="Пароль"
+          type="password"
+          icon="ShowIcon"
+        />
+      </Form>
       <p className="text text_type_main-default text_color_inactive mt-20">
         Уже зарегистрированы?{" "}
         <a

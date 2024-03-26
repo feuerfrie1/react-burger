@@ -34,17 +34,18 @@ export function Fillings({}: TFillingsIngredientProps): JSX.Element {
   return (
     <>
       {filling.length === 0 ? (
-        <div className={`${styles.clean}`} ref={fillingDrop}>
+        <div className={`${styles.clean}`} ref={fillingDrop} data-test-drop='filling'>
           <p className="text text_type_main-default">Выберите начинку</p>
         </div>
       ) : (
-        <div className={`${styles.fillings} custom-scroll`} ref={fillingDrop}>
+        <div className={`${styles.fillings} custom-scroll`} ref={fillingDrop} data-test-drop='filling'>
           {filling.map((item: TFillingsIngredient, index) => {
             return (
               <FillingsCard
                 ingredient={item}
                 key={item["constructorId"]}
                 index={index}
+                data-test-dropped-ingredient={item._id}
               />
             );
           })}

@@ -85,19 +85,25 @@ const BurgerIngredients = (): JSX.Element => {
     <section>
       <h2 className="text text_type_main-large mt-5 mb-3">Соберите бургер</h2>
       <nav className={styles.ingredients__section} ref={tabsRef}>
-        <Tab value="buns" active={currentTab === "buns"} onClick={toggleTab}>
-          Булки
-        </Tab>
-        <Tab
-          value="sauces"
-          active={currentTab === "sauces"}
-          onClick={toggleTab}
-        >
-          Соусы
-        </Tab>
-        <Tab value="main" active={currentTab === "main"} onClick={toggleTab}>
-          Начинки
-        </Tab>
+        <div data-test-tab="buns">
+          <Tab value="buns" active={currentTab === "buns"} onClick={toggleTab}>
+            Булки
+          </Tab>
+        </div>
+        <div data-test-tab="sauces">
+          <Tab
+            value="sauces"
+            active={currentTab === "sauces"}
+            onClick={toggleTab}
+          >
+            Соусы
+          </Tab>
+        </div>
+        <div data-test-tab="main">
+          <Tab value="main" active={currentTab === "main"} onClick={toggleTab}>
+            Начинки
+          </Tab>
+        </div>
       </nav>
       <div
         className={`${styles.ingredients__cards} custom-scroll`}

@@ -1,11 +1,15 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-// @ts-ignore
-import { v4 as uuid } from "uuid";
 import { TIngredient, TFillingIngredient } from "../../../utils/types";
 
 type TInitialState = {
   bun: TIngredient | null;
   fillings: Array<TFillingIngredient>;
+};
+
+type TSortFillingActionPayload = {
+  from: number;
+  to: number;
+  item: TFillingIngredient;
 };
 
 export const initialState: TInitialState = {
@@ -22,7 +26,6 @@ const burgerConstructorSlice = createSlice({
     },
     addFilling: (state, action: PayloadAction<TFillingIngredient>) => {
       const fillingItem = { ...action.payload };
-      fillingItem.constructorId = uuid();
       state.fillings.push(fillingItem);
     },
     removeFilling: (state, action) => {
@@ -32,7 +35,7 @@ const burgerConstructorSlice = createSlice({
       state.bun = null;
       state.fillings = [];
     },
-    sortFilling: (state, action) => {
+    sortFilling: (state, action: PayloadAction<TSortFillingActionPayload>) => {
       state.fillings.splice(action.payload.from, 1);
       state.fillings.splice(action.payload.to, 0, action.payload.item);
     },
